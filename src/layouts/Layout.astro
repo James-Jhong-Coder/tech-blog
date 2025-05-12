@@ -1,5 +1,6 @@
 ---
 import Header from '@components/header.astro'
+import Footer from '@components/footer.astro'
 import './src/styles/global.css'
 ---
 
@@ -13,9 +14,21 @@ import './src/styles/global.css'
 		<title>Astro Basics</title>
 	</head>
 	<body>
-		<Header />
-		<slot />
+		<div class="h-full flex flex-col">
+			<Header />
+			<div class="page-body">
+				<slot />
+			</div>
+			<Footer />
+		</div>
 	</body>
 </html>
 
-<style></style>
+<style lang="scss">
+    @reference "../styles/global.css";
+	.page-body {
+		@apply flex-1 mx-auto;
+		@apply w-full;
+		@apply md:max-w-5xl py-4 px-4;
+	}
+</style>

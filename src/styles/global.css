@@ -8,5 +8,12 @@ body {
 }
 
 @theme {
-  --color-gray-500: #111416;
+  --color-gray-500: #0F0F0F;
+  --color-gray-450: #2A2A2A;
+  --color-gray-400: #353736;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
 }
