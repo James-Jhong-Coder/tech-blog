@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 const posts = await getCollection('blog');
+const sideProject = await getCollection('sideProject')
 import Layout from '../layouts/Layout.astro';
 import Introduction from '@components/introduction.vue';
 import ArticleItem from '@components/articleItem.vue';
@@ -8,9 +9,24 @@ import ArticleItem from '@components/articleItem.vue';
 
 <Layout>
     <Introduction class="mb-4" />
+    <div class="title mt-8 mb-2">作品集</div>
+    {sideProject.map((project, index) => (
+         <ArticleItem key={index} post={project} client:load class:list={[
+            { 'mt-4': index > 0 }
+        ]} />
+    ))}
+
+    <div class="title mt-8 mb-2">最近文章</div>
     {posts.map((post, index) => (
         <ArticleItem key={index} post={post} client:load class:list={[
             { 'mt-4': index > 0 }
         ]} />
     ))}
 </Layout>
+
+<style lang="scss">
+    @reference "../styles/global.css";
+    .title {
+        @apply text-xl font-bold;
+    }
+</style>
