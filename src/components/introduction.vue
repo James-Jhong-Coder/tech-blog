@@ -1,12 +1,11 @@
 <script></script>
 
 <template>
-    <div class="flex flex-col text-5xl">
-        <span>Hello, 我是 James我是一名前端工程師</span>
-        <span class="mt-3">喜歡研究前端技術 </span>
+    <div class="flex flex-col">
+        <span class="text-xl">Hello, 我是 James</span>
+        <p class="mt-4">大家好，我是James，一名擁有6年經驗的軟體工程師，目前正在獨立創業。在這6年的職業生涯中，我參與並領導了許多從無到有的產品開發專案，這讓我在技術選型、架構設計和產品優化方面積累了豐富的經驗。在創業之前，我曾在多家公司擔任技術領導職位，這些經歷讓我不僅掌握了技術，還熟悉了市場需求與商業運營。如今，我專注於為客戶提供量身定制的技術解決方案，從需求分析到最終產品交付，全程參與每個環節，確保項目能夠成功落地。
+            我堅信，技術不僅是工具，更是一種驅動力，能夠幫助企業實現更大的願景。未來，我將繼續在技術創新和產品開發的道路上前行，將我的經驗和創意轉化為實際成果。</p>
     </div>
 </template>
 
-<style>
-
-</style>
+<style></style>
