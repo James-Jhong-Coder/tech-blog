@@ -1,0 +1,12 @@
+---
+const { class: className, ...rest } = Astro.props;
+---
+
+<div class={className} {...rest}></div>
+<style>
+  @reference "../styles/global.css";
+
+  /* .header {
+    @apply fixed top-0 left-0 right-0 z-40 h-16 backdrop-blur-sm flex items-center;
+  } */
+</style>
