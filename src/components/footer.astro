@@ -2,4 +2,24 @@
 
 ---
 
-<footer>footer</footer>
+<footer class='footer-box'>
+  <div class='line'></div>
+  <div class='content p-4'>
+    <span>© 2025 James 部落格. All rights reserved.</span>
+  </div>
+</footer>
+
+<style>
+  @reference "../styles/global.css";
+  .footer-box {
+    @apply flex flex-col;
+  }
+  .line {
+    @apply h-px w-full;
+    @apply bg-gray-100;
+  }
+  .content {
+    @apply bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30;
+    @apply text-gray-350 text-xs;
+  }
+</style>
