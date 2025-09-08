@@ -1,9 +1,9 @@
 ---
-import Header from '@components/header.astro';
-import Footer from '@components/footer.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@/styles/global.css';
 ---
 
-<!doctype html>
 <html lang='en'>
   <head>
     <meta charset='UTF-8' />
@@ -39,11 +39,15 @@ import Footer from '@components/footer.astro';
     @apply h-full relative;
   }
   .header {
-    @apply bg-red-200;
+    @apply fixed top-0 left-0 right-0 z-40 h-16;
+    backdrop-filter: blur(8px); /* 或 Tailwind 的 backdrop-blur-sm/md/lg */
+    background-color: rgba(255, 255, 255, 0.7); /* 半透明底色，常用白色/黑色 */
   }
 
   /* 留出 header 的高度，避免內容被擋住 */
   .content {
     @apply pt-16;
+    height: 1000px;
+    /* background: red; */
   }
 </style>
