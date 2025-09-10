@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import iconReadMore from '@/assets/icons/icon_read_more.svg?url';
+const emit = defineEmits<{
+  viewAll: []
+}>()
+
+const onBtnClickHandler = () => {
+  window.location.href = '/posts';
+}
+
 </script>
 
 <template>
-  <div class="btn">
+  <div class="btn" @click="onBtnClickHandler()">
     <span>查看全部文章</span>
     <img :src="iconReadMore" alt="iconReadMore" class="w-5 h-5 ml-2" />
   </div>
