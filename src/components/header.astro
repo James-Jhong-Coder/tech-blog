@@ -11,7 +11,9 @@ const currentPath = Astro.url.pathname;
 <header class:list={["header-box", className]} {...rest}>
   <div class="content">
     <div class="logo-box">
-      <Logo />
+      <a href="/" aria-label="回首頁">
+        <Logo class="cursor-pointer" />
+      </a>
     </div>
     <div class="ml-auto flex items-center">
       <NavButton client:load isActive={currentPath === "/"}>
