@@ -5,18 +5,21 @@ import dayjs from 'dayjs';
 const props = withDefaults(
   defineProps<{
     id?: string;
-    slug?: string;
     title?: string;
     description?: string;
     createDate?: Date;
   }>(),
   {
     id: '',
-    slug: '',
     title: '',
     description: '',
   }
 );
+
+const onReadMoreHandler = () => {
+  console.log('enter!!!')
+  window.location.href = `/posts/${props.id}`
+}
 </script>
 
 <template>
@@ -30,25 +33,29 @@ const props = withDefaults(
       <div class="post-description mt-2">{{ description }}</div>
     </div>
     <div class="footer mt-6">
-      <ReadMoreButton class="ml-auto" />
+      <ReadMoreButton client:load class="ml-auto" @click="onReadMoreHandler" />
     </div>
   </div>
 </template>
 
 <style scoped>
 @reference "../styles/global.css";
+
 .card {
   @apply border border-gray-460 rounded-xl p-6;
   @apply hover:shadow-lg;
   @apply transition-all duration-300;
 }
+
 .header {
   @apply flex items-center;
   @apply text-gray-430 text-xs leading-none;
 }
+
 .content {
   @apply flex flex-col;
 }
+
 .footer {
   @apply flex items-center;
 }

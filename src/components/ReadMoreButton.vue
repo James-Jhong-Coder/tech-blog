@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import iconReadMore from '@/assets/icons/icon_read_more.svg?url';
+const emit = defineEmits<{
+  click: []
+}>()
+const onTest = () => {
+  emit('click')
+}
 </script>
 
 <template>
-  <div class="btn">
+  <div class="btn" @click="onTest">
     <span>閱讀更多</span>
     <img :src="iconReadMore" alt="iconReadMore" class="w-5 h-5 ml-2" />
   </div>
