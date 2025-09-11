@@ -1,5 +1,5 @@
 ---
-import ViewAllPostsButton from "@/components/ViewAllPostsButton.vue";
+import ViewAllPostsButton from "@/components/ViewAllPostsButton.astro";
 import Layout from "@/layouts/Layout.astro";
 import IconClock from "@/assets/icons/icon_clock.svg";
 import PostList from "@/components/PostList.astro";
@@ -13,13 +13,13 @@ import PostList from "@/components/PostList.astro";
         >分享前端、後端開發經驗，探索最新技術趨勢</span
       >
     </div>
-    <div class="flex items-center mt-4">
+    <div class="flex items-center mt-16">
       <div class="flex items-center">
         <IconClock />
         <span class="ml-2 text-2xl">最新文章</span>
       </div>
       <div class="ml-auto">
-        <ViewAllPostsButton client:load />
+        <ViewAllPostsButton />
       </div>
     </div>
     <PostList class="mt-3" />

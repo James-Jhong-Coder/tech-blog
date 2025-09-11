@@ -1,0 +1,32 @@
+---
+import IconArrowRight from "@/assets/icons/icon_arrow_right.svg";
+---
+
+<a href="/posts" class="btn">
+  <span>查看全部文章</span>
+  <IconArrowRight class="icon ml-2" />
+</a>
+
+<style>
+  @reference "../styles/global.css";
+
+  .btn {
+    @apply flex items-center;
+    @apply leading-none cursor-pointer;
+    @apply text-white;
+    @apply bg-gray-650 rounded-xl py-2 px-3;
+    transition: all 0.3s ease;
+  }
+  .btn:hover {
+    @apply bg-gray-650/90;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(3, 2, 19, 0.25);
+  }
+  .btn .icon {
+    @apply w-5 h-5;
+    transition: all 0.3s ease;
+  }
+  .btn:hover .icon {
+    transform: translateX(4px);
+  }
+</style>
