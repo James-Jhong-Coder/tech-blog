@@ -47,14 +47,11 @@ const currentPath = Astro.url.pathname;
     @apply grid;
     grid-template-rows: 1fr 1px;
     grid-template-columns: 1fr;
-    /* @apply flex flex-col; */
-    /* border-bottom: 1px solid #e5e7eb; */
-    /* @apply mx-auto px-3;
-    @apply lg:px-0 lg:w-10/12; */
   }
   .content {
     @apply flex items-center;
     @apply px-3;
+    @apply max-w-screen-lg w-full mx-auto;
   }
   .logo-box {
     @apply flex items-center;
