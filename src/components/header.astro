@@ -1,24 +1,35 @@
 ---
 const { class: className, ...rest } = Astro.props;
-import Logo from '@/assets/icons/logo.svg';
-import NavButton from '@components/NavButton.vue';
+import Logo from "@/assets/icons/logo.svg";
+import NavButton from "@components/NavButton.vue";
+import IconHome from "@/assets/icons/icon_home.svg";
+import IconPostList from "@/assets/icons/icon_post_list.svg";
+import IconPerson from "@/assets/icons/icon_person.svg";
 const currentPath = Astro.url.pathname;
 console.log(currentPath);
 ---
 
-<header class:list={['header-box', className]} {...rest}>
-  <div class='content'>
-    <div class='logo-box'>
+<header class:list={["header-box", className]} {...rest}>
+  <div class="content">
+    <div class="logo-box">
       <Logo />
     </div>
-    <div class='ml-auto flex items-center'>
-      <NavButton is-active>首頁</NavButton>
-      <NavButton class='ml-2'>文章列表</NavButton>
-      <NavButton class='ml-2'>關於</NavButton>
-      <NavButton class='ml-2'>聯絡</NavButton>
+    <div class="ml-auto flex items-center">
+      <NavButton>
+        <IconHome class="mr-1 w-4 h-4" />
+        <span>首頁</span>
+      </NavButton>
+      <NavButton class="ml-2">
+        <IconPostList class="mr-1 w-4 h-4" />
+        <span>文章列表</span>
+      </NavButton>
+      <NavButton class="ml-2">
+        <IconPerson class="mr-1 w-4 h-4" />
+        <span>關於</span>
+      </NavButton>
     </div>
   </div>
-  <span class='bottom-line'></span>
+  <span class="bottom-line"></span>
 </header>
 <style>
   @reference "../styles/global.css";
