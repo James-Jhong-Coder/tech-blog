@@ -6,7 +6,6 @@ import IconHome from "@/assets/icons/icon_home.svg";
 import IconPostList from "@/assets/icons/icon_post_list.svg";
 import IconPerson from "@/assets/icons/icon_person.svg";
 const currentPath = Astro.url.pathname;
-console.log(currentPath);
 ---
 
 <header class:list={["header-box", className]} {...rest}>
@@ -15,15 +14,25 @@ console.log(currentPath);
       <Logo />
     </div>
     <div class="ml-auto flex items-center">
-      <NavButton>
-        <IconHome class="mr-1 w-4 h-4" />
+      <NavButton client:load isActive={currentPath === "/"}>
+        <IconHome class="mr-1 w-4 h-4" href="/" />
         <span>首頁</span>
       </NavButton>
-      <NavButton class="ml-2">
+      <NavButton
+        class="ml-2"
+        client:load
+        href="/posts"
+        isActive={currentPath === "/posts"}
+      >
         <IconPostList class="mr-1 w-4 h-4" />
         <span>文章列表</span>
       </NavButton>
-      <NavButton class="ml-2">
+      <NavButton
+        class="ml-2"
+        client:load
+        href="/about"
+        isActive={currentPath === "/about"}
+      >
         <IconPerson class="mr-1 w-4 h-4" />
         <span>關於</span>
       </NavButton>
