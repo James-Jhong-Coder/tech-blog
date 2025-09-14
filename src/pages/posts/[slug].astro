@@ -1,7 +1,8 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Prose from "@/components/Prose.astro";
 export async function getStaticPaths() {
     const posts = await getCollection("posts", ({ data }) => !data.draft);
     return posts.map((post) => ({
@@ -15,16 +16,24 @@ const post = (await getCollection("posts")).find((p) => p.id === slug);
 if (!post) {
     throw new Error(`Post not found: ${slug}`);
 }
-
-const dateText = post.data.createDate
-    ? new Date(post.data.createDate).toISOString().slice(0, 10)
-    : "";
+const { Content } = await render(post);
+// const dateText = post.data.createDate
+//     ? new Date(post.data.createDate).toISOString().slice(0, 10)
+//     : "";
 ---
 
 <Layout>
-    <article class="prose max-w-none">
-        <h1>{post.data.title}-1</h1>
-        {dateText && <p class="text-gray-500">{dateText}</p>} - 2
-        <div set:html={post.rendered.html} />
-    </article>
+    <Breadcrumb
+        class="mt-6 mb-10"
+        items={[
+            { label: "首頁", href: "/", iconName: "home" },
+            { label: "文章列表", href: "/posts", iconName: "postList" },
+            { label: post.id, href: "", iconName: "post" },
+        ]}
+    />
+    <Prose>
+        <Content />
+    </Prose>
 </Layout>
+
+<style></style>
