@@ -1,0 +1,87 @@
+---
+import IconHome from "@/assets/icons/icon_home.svg";
+import IconPostList from "@/assets/icons/icon_post_list.svg";
+import IconPerson from "@/assets/icons/icon_person.svg";
+import IconBreadcrumbArrow from "@/assets/icons/icon_breadcrumb_arrow.svg";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+
+type IconName = "home" | "post" | "person" | "postList";
+
+interface Crumb {
+    label: string;
+    href?: string;
+    icon?: AstroComponentFactory;
+    iconName?: IconName;
+    iconClass?: string;
+}
+
+interface Props {
+    items: Crumb[];
+    class?: string;
+}
+const { items = [], class: className = "" } = Astro.props as Props;
+const iconMapping: Record<IconName, AstroComponentFactory> = {
+    home: IconHome,
+    postList: IconPostList,
+    post: IconPostList,
+    person: IconPerson,
+};
+---
+
+<nav class={`breadcrumb ${className}`}>
+    {
+        items.map((item, index) => {
+            const Icon = item.iconName ? iconMapping[item.iconName] : null;
+            return (
+                <div
+                    class={`flex items-center ${index < items.length - 1 ? "text-muted cursor-pointer" : ""}`}
+                >
+                    <a
+                        class={`item ${index < items.length - 1 ? "muted-item" : ""}`}
+                        href={item.href}
+                    >
+                        {Icon ? <Icon class="icon mr-1.5" /> : null}
+                        <span>{item.label}</span>
+                    </a>
+                    {index < items.length - 1 ? (
+                        <IconBreadcrumbArrow
+                            class="mx-2 w-3 h-3 shrink-0 translate-y-[1px]"
+                            aria-hidden="true"
+                        />
+                    ) : null}
+                </div>
+            );
+        })
+    }
+</nav>
+
+<style>
+    @reference "../styles/global.css";
+    .breadcrumb {
+        @apply flex items-center;
+        @apply leading-none;
+    }
+    .breadcrumb .item {
+        @apply flex items-center flex-shrink-0;
+        transition: all 0.3s;
+    }
+    .breadcrumb .item .icon {
+        @apply w-[0.875rem] h-[0.875rem] translate-y-[1px];
+        transition: transform 0.2s;
+    }
+    .breadcrumb .muted-item:hover {
+        @apply text-gray-900 font-medium;
+    }
+    .breadcrumb .muted-item:hover .icon {
+        transform: scale(1.2);
+    }
+    .text-muted {
+        @apply text-gray-480;
+    }
+    .text-emphasis {
+        @apply text-gray-900 font-medium;
+    }
+    .text-separator {
+        @apply text-gray-400;
+    }
+</style>
