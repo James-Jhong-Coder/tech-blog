@@ -8,13 +8,14 @@ const { class: className } = Astro.props;
 <div class={`post-list ${className ?? ""}`}>
   {
     posts.map((post, index) => (
-      <PostListItem
-        id={post.id}
-        title={post.data.title}
-        description={post.data.description}
-        createDate={post.data.createDate}
-        class={index > 0 ? "mt-6" : ""}
-      />
+      <a href={`/posts/${post.id}`} class={index > 0 ? "mt-6" : ""}>
+        <PostListItem
+          id={post.id}
+          title={post.data.title}
+          description={post.data.description}
+          createDate={post.data.createDate}
+        />
+      </a>
     ))
   }
 </div>
