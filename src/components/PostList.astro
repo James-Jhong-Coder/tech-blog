@@ -1,5 +1,5 @@
 ---
-import PostListItem from "@/components/PostListItem.vue";
+import PostListItem from "@/components/PostListItem.astro";
 import { getCollection } from "astro:content";
 const posts = await getCollection("posts");
 const { class: className } = Astro.props;
@@ -13,7 +13,7 @@ const { class: className } = Astro.props;
         title={post.data.title}
         description={post.data.description}
         createDate={post.data.createDate}
-        class={`${index > 0 ? "mt-6" : ""}`}
+        class={index > 0 ? "mt-6" : ""}
         client:load
       />
     ))

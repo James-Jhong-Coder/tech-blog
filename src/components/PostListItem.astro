@@ -1,0 +1,76 @@
+---
+import dayjs from "dayjs";
+import IconPostDate from "@/assets/icons/icon_post_date.svg";
+import ReadMoreButton from "@/components/ReadMoreButton.astro";
+
+interface Props {
+  id?: string;
+  title?: string;
+  description?: string;
+  createDate?: Date | string | number;
+  class?: string;
+}
+
+const {
+  id = "",
+  title = "",
+  description = "",
+  createDate,
+  class: className = "",
+} = Astro.props as Props;
+
+const formattedDate = dayjs(createDate).format("YYYY-MM-DD");
+---
+
+<div class={`card ${className}`}>
+  <div class="header">
+    <IconPostDate class="w-3 h-3 mr-1" />
+    <span class="ml-1">{formattedDate}</span>
+  </div>
+
+  <div class="content mt-3">
+    <div class="card-title">{title}</div>
+    <div class="post-description mt-2">{description}</div>
+  </div>
+
+  <div class="footer mt-6">
+    <ReadMoreButton class="ml-auto" />
+    <!-- <a
+        href={postUrl}
+        class="ml-auto inline-flex items-center rounded-md px-3 py-1 text-sm border border-gray-460 hover:bg-gray-100 transition"
+      >
+        閱讀更多
+      </a> -->
+  </div>
+</div>
+
+<style>
+  @reference "../styles/global.css";
+
+  .card {
+    @apply border border-gray-460 rounded-xl p-6;
+    @apply hover:shadow-lg;
+    @apply transition-all duration-300;
+  }
+
+  .header {
+    @apply flex items-center;
+    @apply text-gray-430 text-xs leading-none;
+  }
+
+  .content {
+    @apply flex flex-col;
+  }
+
+  .footer {
+    @apply flex items-center justify-end;
+  }
+
+  .card-title {
+    @apply text-xl;
+  }
+
+  .post-description {
+    @apply text-gray-430;
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+import IconReadMore from "@/assets/icons/icon_read_more.svg"; // 直接當 SVG 元件用
+
+interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id = "", class: className = "" } = Astro.props as Props;
+---
+
+<div class="btn" @click="onTest">
+  <span>閱讀更多</span>
+  <IconReadMore class="w-5 h-5 ml-2 icon" />
+</div>
+
+<style>
+  @reference "../styles/global.css";
+
+  .btn {
+    @apply inline-flex items-center text-sm;
+    @apply leading-none cursor-pointer;
+    @apply text-gray-600 font-medium px-2.5 py-2 rounded-[0.625rem];
+    @apply hover:bg-gray-410;
+  }
+  .btn .icon {
+    transition: all 0.2s;
+  }
+  .btn:hover .icon {
+    transform: translateX(4px);
+  }
+</style>
