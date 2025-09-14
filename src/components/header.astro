@@ -1,24 +1,36 @@
 ---
 const { class: className, ...rest } = Astro.props;
-import Logo from '@/assets/icons/logo.svg';
-import NavButton from '@components/NavButton.vue';
+import Logo from "@/assets/icons/logo.svg";
+import NavButton from "@components/NavButton.astro";
+import IconHome from "@/assets/icons/icon_home.svg";
+import IconPostList from "@/assets/icons/icon_post_list.svg";
+import IconPerson from "@/assets/icons/icon_person.svg";
 const currentPath = Astro.url.pathname;
-console.log(currentPath);
 ---
 
-<header class:list={['header-box', className]} {...rest}>
-  <div class='content'>
-    <div class='logo-box'>
-      <Logo />
+<header class:list={["header-box", className]} {...rest}>
+  <div class="content">
+    <div class="logo-box">
+      <a href="/" aria-label="回首頁">
+        <Logo class="cursor-pointer" />
+      </a>
     </div>
-    <div class='ml-auto flex items-center'>
-      <NavButton is-active>首頁</NavButton>
-      <NavButton class='ml-2'>文章列表</NavButton>
-      <NavButton class='ml-2'>關於</NavButton>
-      <NavButton class='ml-2'>聯絡</NavButton>
+    <div class="ml-auto flex items-center">
+      <NavButton isActive={currentPath === "/"}>
+        <IconHome class="mr-1 w-4 h-4" href="/" />
+        <span>首頁</span>
+      </NavButton>
+      <NavButton class="ml-2" href="/posts" isActive={currentPath === "/posts"}>
+        <IconPostList class="mr-1 w-4 h-4" />
+        <span>文章列表</span>
+      </NavButton>
+      <NavButton class="ml-2" href="/about" isActive={currentPath === "/about"}>
+        <IconPerson class="mr-1 w-4 h-4" />
+        <span>關於</span>
+      </NavButton>
     </div>
   </div>
-  <span class='bottom-line'></span>
+  <span class="bottom-line"></span>
 </header>
 <style>
   @reference "../styles/global.css";
@@ -27,14 +39,11 @@ console.log(currentPath);
     @apply grid;
     grid-template-rows: 1fr 1px;
     grid-template-columns: 1fr;
-    /* @apply flex flex-col; */
-    /* border-bottom: 1px solid #e5e7eb; */
-    /* @apply mx-auto px-3;
-    @apply lg:px-0 lg:w-10/12; */
   }
   .content {
     @apply flex items-center;
     @apply px-3;
+    @apply max-w-screen-lg w-full mx-auto;
   }
   .logo-box {
     @apply flex items-center;

@@ -1,24 +1,24 @@
 ---
-import Header from '@components/Header.astro';
-import Footer from '@components/Footer.astro';
-import '@/styles/global.css';
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import "@/styles/global.css";
 ---
 
-<html lang='en'>
+<html lang="en">
   <head>
-    <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width' />
-    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
-    <meta name='generator' content={Astro.generator} />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
     <title>James blog</title>
   </head>
   <body>
-    <section class='page'>
-      <Header class='header' />
-      <main class='content'>
+    <section class="page">
+      <Header class="header" />
+      <main class="content">
         <slot />
       </main>
-      <Footer class='footer' />
+      <Footer />
     </section>
   </body>
 </html>
@@ -37,6 +37,8 @@ import '@/styles/global.css';
 
   .page {
     @apply h-full relative;
+    @apply grid;
+    grid-template-rows: 1fr max-content;
   }
   .header {
     @apply fixed top-0 left-0 right-0 z-40 h-16;
@@ -48,7 +50,7 @@ import '@/styles/global.css';
   .content {
     @apply pt-16;
     @apply flex flex-col;
-    @apply max-w-5xl px-6 mx-auto;
-    height: 1000px;
+    @apply px-3;
+    @apply max-w-screen-lg w-full mx-auto;
   }
 </style>

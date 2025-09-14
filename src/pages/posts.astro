@@ -1,9 +1,16 @@
 ---
-import ViewAllPostsButton from "@/components/ViewAllPostsButton.vue";
 import Layout from "@/layouts/Layout.astro";
 import PostList from "@/components/PostList.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
 ---
 
 <Layout>
-    <PostList client:load class="mt-5" />
+    <Breadcrumb
+        class="mt-6"
+        items={[
+            { label: "首頁", href: "/", iconName: "home" },
+            { label: "文章列表", href: "", iconName: "postList" },
+        ]}
+    />
+    <PostList class="mt-10" />
 </Layout>

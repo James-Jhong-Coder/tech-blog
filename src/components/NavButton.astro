@@ -1,0 +1,30 @@
+---
+interface Props {
+    isActive?: boolean;
+    class?: string;
+    href?: string;
+}
+
+const {
+    isActive = false,
+    class: className = "",
+    href = "/",
+} = Astro.props as Props;
+---
+
+<a href={href} class={`nav-btn ${className} ${isActive ? "is-active" : ""}`}>
+    <slot />
+</a>
+
+<style>
+    @reference "../styles/global.css";
+    .nav-btn {
+        @apply inline-flex items-center cursor-pointer leading-none text-sm;
+        @apply hover:bg-gray-150 py-2 px-2.5 rounded-md;
+    }
+
+    .is-active {
+        @apply bg-gray-600 text-white;
+        @apply hover:bg-gray-600;
+    }
+</style>
