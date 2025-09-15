@@ -28,6 +28,16 @@ const { Content } = await render(post);
 ---
 
 <Layout>
+    {
+        post.data.coverImage ? (
+            <img
+                src={post.data.coverImage}
+                alt={post.data.title}
+                class="w-full rounded-lg mt-6"
+            />
+        ) : null
+    }
+
     <Breadcrumb
         class="mt-6 mb-10"
         items={[
