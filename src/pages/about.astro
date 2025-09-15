@@ -1,5 +1,14 @@
 ---
-
+import Layout from "@/layouts/Layout.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
 ---
 
-關於我
+<Layout>
+    <Breadcrumb
+        class="mt-6"
+        items={[
+            { label: "首頁", href: "/", iconName: "home" },
+            { label: "關於我", href: "", iconName: "person" },
+        ]}
+    />
+</Layout>
