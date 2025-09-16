@@ -1,0 +1,18 @@
+---
+interface Props {
+    class?: string;
+}
+const { class: className = "" } = Astro.props as Props;
+---
+
+<div class={`card ${className}`}>
+    <slot />
+</div>
+
+<style>
+    @reference "../styles/global.css";
+    .card {
+        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+        @apply py-8 px-6 rounded-2xl text-white;
+    }
+</style>

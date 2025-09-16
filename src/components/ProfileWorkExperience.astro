@@ -1,0 +1,67 @@
+---
+import ProfileCard from "./ProfileCard.astro";
+import ProfileDetailCard from "@/components/ProfileDetailCard.astro";
+import IconBriefcase from "@/assets/icons/icon_briefcase.svg";
+interface Props {
+    class?: string;
+}
+const { class: className = "" } = Astro.props as Props;
+---
+
+<ProfileCard class={`${className}`}>
+    <span class="flex text-3xl mb-6">工作經歷</span>
+    <div class="flex flex-col">
+        <div class="flex">
+            <div class="icon-box">
+                <IconBriefcase class="w-5 h-5" />
+            </div>
+            <ProfileDetailCard class="ml-8">
+                <div class="flex">
+                    <div class="flex flex-col">
+                        <span>資深前端工程師</span>
+                        <span>艾克森有限公司</span>
+                    </div>
+                    <div class="flex ml-auto">2022 ~ 現在</div>
+                </div>
+                <ul>
+                    <li>領導團隊完成大型電商平台重構，提升效能45%</li>
+                    <li>建立完整的開發規範和CI/CD流程</li>
+                    <li>指導5名初級工程師技術成長</li>
+                </ul>
+            </ProfileDetailCard>
+        </div>
+        <div class="flex mt-8">
+            <div class="icon-box">
+                <IconBriefcase class="w-5 h-5" />
+            </div>
+            <ProfileDetailCard class="ml-8">
+                <div class="flex">
+                    <div class="flex flex-col">
+                        <span>前端工程師</span>
+                        <span>特雷維科技有限公司 </span>
+                    </div>
+                    <div class="flex ml-auto">2022 ~ 現在</div>
+                </div>
+                <ul>
+                    <li>領導團隊完成大型電商平台重構，提升效能45%</li>
+                    <li>建立完整的開發規範和CI/CD流程</li>
+                    <li>指導5名初級工程師技術成長</li>
+                </ul>
+            </ProfileDetailCard>
+        </div>
+    </div>
+</ProfileCard>
+
+<style>
+    @reference "../styles/global.css";
+    .icon-box {
+        @apply w-12 h-12 rounded-full shadow-lg;
+        @apply flex justify-center items-center;
+        background: linear-gradient(to bottom, #3b475b, #2f3a4e);
+    }
+    .detail-card {
+        @apply border border-gray-700;
+        @apply flex flex-col rounded-xl;
+        @apply p-6 w-full;
+    }
+</style>

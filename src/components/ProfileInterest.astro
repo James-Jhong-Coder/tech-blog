@@ -1,0 +1,26 @@
+---
+import ProfileCard from "./ProfileCard.astro";
+import ProfileDetailCard from "@/components/ProfileDetailCard.astro";
+interface Props {
+    class?: string;
+}
+const { class: className = "" } = Astro.props as Props;
+---
+
+<ProfileCard class={`${className}`}>
+    <span class="flex text-3xl mb-6">興趣</span>
+    <div class="interest-list">
+        <ProfileDetailCard class=""> 排球 </ProfileDetailCard>
+        <ProfileDetailCard class=""> 跳舞 </ProfileDetailCard>
+        <ProfileDetailCard> 煮飯 </ProfileDetailCard>
+    </div>
+</ProfileCard>
+
+<style>
+    @reference "../styles/global.css";
+    .interest-list {
+        @apply grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+</style>

@@ -1,0 +1,21 @@
+---
+import ProfileCard from "./ProfileCard.astro";
+import ProfileDetailCard from "@/components/ProfileDetailCard.astro";
+interface Props {
+    class?: string;
+}
+const { class: className = "" } = Astro.props as Props;
+---
+
+<ProfileCard class={`${className}`}>
+    <span class="flex text-3xl mb-6">教育程度</span>
+    <ProfileDetailCard>
+        <span>台北科技大學</span>
+        <span>資訊工程學系</span>
+        <span>2009 ~ 2012</span>
+    </ProfileDetailCard>
+</ProfileCard>
+
+<style>
+    @reference "../styles/global.css";
+</style>
