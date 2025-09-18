@@ -1,0 +1,19 @@
+---
+interface Props {
+    class?: string;
+}
+const { class: className = "" } = Astro.props as Props;
+---
+
+<div class={`card ${className}`}>
+    <slot />
+</div>
+
+<style>
+    @reference "../styles/global.css";
+    .card {
+        @apply border border-gray-700;
+        @apply flex flex-col rounded-xl;
+        @apply p-6 w-full;
+    }
+</style>

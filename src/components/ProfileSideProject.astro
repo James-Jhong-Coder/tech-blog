@@ -1,0 +1,70 @@
+---
+import ProfileCard from "./ProfileCard.astro";
+import ProfileDetailCard from "@/components/ProfileDetailCard.astro";
+import ProfileSkillTag from "@/components/ProfileSkillTag.astro";
+import IconSideProject from "@/assets/icons/icon_side_project.svg";
+interface Props {
+    class?: string;
+}
+const { class: className = "" } = Astro.props as Props;
+---
+
+<ProfileCard class={`${className}`}>
+    <div class="flex items-center mb-6">
+        <IconSideProject class="w-8 h-8 text-amber-300" />
+        <span class="flex text-3xl ml-2">Side Project</span>
+    </div>
+    <div class="project-list">
+        <ProfileDetailCard>
+            <span class="project-title">技術部落格</span>
+            <div class="tags mt-4">
+                <ProfileSkillTag>Astro</ProfileSkillTag>
+                <ProfileSkillTag>TailwindCSS</ProfileSkillTag>
+                <ProfileSkillTag>TypeScript</ProfileSkillTag>
+                <ProfileSkillTag>Markdown</ProfileSkillTag>
+                <ProfileSkillTag>Vercel</ProfileSkillTag>
+            </div>
+        </ProfileDetailCard>
+        <ProfileDetailCard>
+            <span class="project-title">url builder</span>
+            <div class="tags mt-4">
+                <ProfileSkillTag>Vue 3</ProfileSkillTag>
+                <ProfileSkillTag>TypeScript</ProfileSkillTag>
+                <ProfileSkillTag>TailwindCSS</ProfileSkillTag>
+                <ProfileSkillTag>Chrome Extensions API</ProfileSkillTag>
+                <ProfileSkillTag>Vite</ProfileSkillTag>
+            </div>
+        </ProfileDetailCard>
+        <ProfileDetailCard>
+            <span class="project-title">flip card 字卡 app</span>
+            <div class="tags mt-4">
+                <ProfileSkillTag>Vue 3</ProfileSkillTag>
+                <ProfileSkillTag>Pinia</ProfileSkillTag>
+                <ProfileSkillTag>TypeScript</ProfileSkillTag>
+                <ProfileSkillTag>TailwindCSS</ProfileSkillTag>
+                <ProfileSkillTag>NestJS</ProfileSkillTag>
+                <ProfileSkillTag>MySQL</ProfileSkillTag>
+                <ProfileSkillTag>AWS EC2</ProfileSkillTag>
+            </div>
+        </ProfileDetailCard>
+    </div>
+</ProfileCard>
+
+<style>
+    @reference "../styles/global.css";
+    .project-list {
+        @apply grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: min-content;
+        grid-auto-rows: min-content;
+        gap: 16px;
+    }
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .project-title {
+        @apply text-lg font-medium;
+    }
+</style>

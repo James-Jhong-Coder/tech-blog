@@ -1,0 +1,28 @@
+---
+import ProfileCard from "@components/ProfileCard.astro";
+interface Props {
+    class?: string;
+}
+const { class: className = "" } = Astro.props as Props;
+---
+
+<ProfileCard class={`${className}`}>
+    <div class="flex text-white">
+        <div class="flex flex-col flex-1">
+            <span class="text-sm text-amber-300">Hello 你好</span>
+            <span class="mt-3 text-5xl">我是 James</span>
+            <span class="mt-6 leading-7"
+                >我目前擔任資深前端工程師，目前資歷有五年的時間，熟悉 Vue
+                生態系的開發，能打造穩定且易於維護的產品</span
+            >
+        </div>
+        <div class="flex flex-col ml-5 shrink-0 flex-1">
+            <img
+                src="https://shoplineimg.com/media/663c8aebb455500019558155/original.webp?source_format=jpg"
+                class="rounded-3xl"
+                alt=""
+                srcset=""
+            />
+        </div>
+    </div>
+</ProfileCard>

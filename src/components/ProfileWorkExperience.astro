@@ -1,0 +1,95 @@
+---
+import ProfileCard from "./ProfileCard.astro";
+import ProfileDetailCard from "@/components/ProfileDetailCard.astro";
+import IconBriefcase from "@/assets/icons/icon_briefcase.svg";
+import IconCurrentJob from "@/assets/icons/icon_current_job.svg";
+import IconPostDate from "@/assets/icons/icon_post_date.svg";
+interface Props {
+    class?: string;
+}
+const { class: className = "" } = Astro.props as Props;
+---
+
+<ProfileCard class={`${className}`}>
+    <div class="flex items-center mb-6">
+        <IconBriefcase class="text-yellow-300 w-8 h-8" />
+        <span class="flex text-3xl ml-3">工作經歷</span>
+    </div>
+    <div class="flex flex-col mt-12">
+        <div class="flex">
+            <div class="icon-box icon-current-job">
+                <IconCurrentJob class="w-5 h-5" />
+            </div>
+            <ProfileDetailCard class="ml-8">
+                <div class="flex">
+                    <div class="flex flex-col">
+                        <span class="job-title">資深前端工程師</span>
+                        <span class="company-name">艾克森科技有限公司</span>
+                    </div>
+                    <div class="job-duration">
+                        <IconPostDate />
+                        <span class="ml-1">2022 ~ 現在</span>
+                    </div>
+                </div>
+                <ul class="mt-2 job-description">
+                    <li>領導團隊完成大型電商平台重構，提升效能45%</li>
+                    <li>建立完整的開發規範和CI/CD流程</li>
+                    <li>指導5名初級工程師技術成長</li>
+                </ul>
+            </ProfileDetailCard>
+        </div>
+        <div class="flex mt-8">
+            <div class="icon-box">
+                <IconBriefcase class="w-5 h-5" />
+            </div>
+            <ProfileDetailCard class="ml-8">
+                <div class="flex">
+                    <div class="flex flex-col">
+                        <span class="job-title">前端工程師</span>
+                        <span class="company-name">特雷維科技有限公司</span>
+                    </div>
+                    <div class="job-duration">
+                        <IconPostDate />
+                        <span class="ml-1">2019 ~ 2021</span>
+                    </div>
+                </div>
+                <ul class="mt-2 job-description">
+                    <li>領導團隊完成大型電商平台重構，提升效能45%</li>
+                    <li>建立完整的開發規範和CI/CD流程</li>
+                    <li>指導5名初級工程師技術成長</li>
+                </ul>
+            </ProfileDetailCard>
+        </div>
+    </div>
+</ProfileCard>
+
+<style>
+    @reference "../styles/global.css";
+    .icon-box {
+        @apply w-12 h-12 rounded-full shadow-lg;
+        @apply flex justify-center items-center;
+        background: linear-gradient(to bottom, #3b475b, #2f3a4e);
+    }
+
+    .icon-box.icon-current-job {
+        @apply flex items-center justify-center;
+        @apply bg-gradient-to-br from-amber-400 to-amber-600;
+    }
+
+    .job-title {
+        @apply text-xl;
+    }
+    .company-name {
+        @apply text-base text-amber-400;
+    }
+    .job-duration {
+        @apply flex items-center text-slate-400 text-sm;
+        @apply ml-auto self-start;
+    }
+    .job-description {
+        @apply list-disc list-inside marker:text-amber-400;
+    }
+    .job-description > li:not(:first-child) {
+        @apply mt-1;
+    }
+</style>
