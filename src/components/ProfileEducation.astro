@@ -1,6 +1,7 @@
 ---
 import ProfileCard from "./ProfileCard.astro";
 import ProfileDetailCard from "@/components/ProfileDetailCard.astro";
+import IconEducation from "@/assets/icons/icon_education.svg";
 interface Props {
     class?: string;
 }
@@ -8,11 +9,14 @@ const { class: className = "" } = Astro.props as Props;
 ---
 
 <ProfileCard class={`${className}`}>
-    <span class="flex text-3xl mb-6">教育程度</span>
+    <div class="flex items-center mb-6">
+        <IconEducation class="w-6 h-6 text-amber-300" />
+        <span class="flex text-2xl ml-2">教育程度</span>
+    </div>
     <ProfileDetailCard>
-        <span>台北科技大學</span>
-        <span>資訊工程學系</span>
-        <span>2009 ~ 2012</span>
+        <span class="text-white">台北科技大學</span>
+        <span class="text-amber-400">資訊工程學系</span>
+        <span class="text-slate-400">2009 ~ 2012</span>
     </ProfileDetailCard>
 </ProfileCard>
 

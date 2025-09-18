@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
-import ProfileCard from "@components/ProfileCard.astro";
+import ProfileIntroduction from "@components/ProfileIntroduction.astro";
 import ProfileWorkExperience from "@components/ProfileWorkExperience.astro";
 import ProfileSideProject from "@components/ProfileSideProject.astro";
 import ProfileEducation from "@/components/ProfileEducation.astro";
@@ -18,27 +18,7 @@ import ProfileInterest from "@/components/ProfileInterest.astro";
     />
     <div class="flex flex-col">
         <!-- 自我介紹 -->
-        <ProfileCard class="mt-5">
-            <div class="flex text-white">
-                <div class="flex flex-col flex-1">
-                    <span class="text-sm text-yellow-300">Hello 你好</span>
-                    <span class="mt-3 text-5xl">我是 James</span>
-                    <span class="mt-6"
-                        >一位充滿熱忱的全端開發工程師，專精於現代 Web
-                        技術生態系統。
-                        致力於創造卓越的數位體驗，並推動技術創新的邊界。</span
-                    >
-                </div>
-                <div class="flex flex-col ml-5 shrink-0 flex-1">
-                    <img
-                        src="https://shoplineimg.com/media/663c8aebb455500019558155/original.webp?source_format=jpg"
-                        class="rounded-3xl"
-                        alt=""
-                        srcset=""
-                    />
-                </div>
-            </div>
-        </ProfileCard>
+        <ProfileIntroduction class="mt-5" />
         <!-- 工作經歷 -->
         <ProfileWorkExperience class="mt-5" />
         <!-- Side Project -->
