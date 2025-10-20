@@ -12,4 +12,9 @@ export default defineConfig({
   },
 
   integrations: [],
+  markdown: {
+    syntaxHighlight: 'prism',
+  },
+  site: 'https://James-Jhong-Coder.github.io/tech-blog/',
+  base: '/tech-blog/',
 });
