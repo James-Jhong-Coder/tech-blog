@@ -1,6 +1,6 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   vite: {
@@ -13,8 +13,10 @@ export default defineConfig({
 
   integrations: [],
   markdown: {
-    syntaxHighlight: 'prism',
+    shikiConfig: {
+      theme: "dracula",
+    },
   },
-  site: 'https://James-Jhong-Coder.github.io/tech-blog/',
-  base: '/tech-blog/',
+  site: "https://James-Jhong-Coder.github.io/tech-blog/",
+  base: "/tech-blog/",
 });
