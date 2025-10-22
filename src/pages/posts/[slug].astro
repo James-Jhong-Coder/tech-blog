@@ -1,21 +1,21 @@
 ---
-import { getCollection, render } from "astro:content";
-import dayjs from "dayjs";
-import Layout from "@/layouts/Layout.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
-import Prose from "@/components/Prose.astro";
-import IconPostDate from "@/assets/icons/icon_post_date.svg";
-import IconReadingTime from "@/assets/icons/icon_reading_time.svg";
-import { getReadingTime } from "@/utils/readingTime";
+import { getCollection, render } from 'astro:content';
+import dayjs from 'dayjs';
+import Layout from '@/layouts/Layout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import Prose from '@/components/Prose.astro';
+import IconPostDate from '@/assets/icons/icon_post_date.svg';
+import IconReadingTime from '@/assets/icons/icon_reading_time.svg';
+import { getReadingTime } from '@/utils/readingTime';
 export async function getStaticPaths() {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.id },
   }));
 }
 
 const { slug } = Astro.params;
-const post = (await getCollection("posts")).find((p) => p.id === slug);
+const post = (await getCollection('posts')).find((p) => p.id === slug);
 
 if (!post) {
   throw new Error(`Post not found: ${slug}`);
@@ -33,26 +33,26 @@ const { Content } = await render(post);
       <img
         src={post.data.coverImage}
         alt={post.data.title}
-        class="w-full rounded-lg mt-6"
+        class='w-full h-80 object-cover rounded-lg mt-6'
       />
     ) : null
   }
 
   <Breadcrumb
-    class="mt-6 mb-10"
+    class='mt-6 mb-10'
     items={[
-      { label: "首頁", href: "/", iconName: "home" },
-      { label: "文章列表", href: "/posts", iconName: "postList" },
-      { label: post.id, href: "", iconName: "post" },
+      { label: '首頁', href: '/', iconName: 'home' },
+      { label: '文章列表', href: '/posts', iconName: 'postList' },
+      { label: post.id, href: '', iconName: 'post' },
     ]}
   />
-  <div class="post-meta mb-6">
-    <div class="flex items-center">
-      <IconPostDate class="w-3 h-3 mr-1" />
-      <span>{dayjs(post.data.createDate).format("YYYY-MM-DD")}</span>
+  <div class='post-meta mb-6'>
+    <div class='flex items-center'>
+      <IconPostDate class='w-3 h-3 mr-1' />
+      <span>{dayjs(post.data.createDate).format('YYYY-MM-DD')}</span>
     </div>
-    <div class="flex items-center ml-4">
-      <IconReadingTime class="w-3 h-3 mr-1" />
+    <div class='flex items-center ml-4'>
+      <IconReadingTime class='w-3 h-3 mr-1' />
       <span>{readingTime}</span>
     </div>
   </div>
