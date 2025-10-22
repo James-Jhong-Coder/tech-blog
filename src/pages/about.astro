@@ -1,35 +1,36 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
-import ProfileIntroduction from "@components/ProfileIntroduction.astro";
-import ProfileWorkExperience from "@components/ProfileWorkExperience.astro";
-import ProfileSideProject from "@components/ProfileSideProject.astro";
-import ProfileEducation from "@/components/ProfileEducation.astro";
-import ProfileInterest from "@/components/ProfileInterest.astro";
+import Layout from '@/layouts/Layout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import ProfileIntroduction from '@components/ProfileIntroduction.astro';
+import ProfileWorkExperience from '@components/ProfileWorkExperience.astro';
+import ProfileSideProject from '@components/ProfileSideProject.astro';
+import ProfileEducation from '@/components/ProfileEducation.astro';
+import ProfileInterest from '@/components/ProfileInterest.astro';
 ---
 
 <Layout>
-    <Breadcrumb
-        class="mt-6"
-        items={[
-            { label: "首頁", href: "/", iconName: "home" },
-            { label: "關於我", href: "", iconName: "person" },
-        ]}
-    />
-    <div class="flex flex-col">
-        <!-- 自我介紹 -->
-        <ProfileIntroduction class="mt-5" />
-        <!-- 工作經歷 -->
-        <ProfileWorkExperience class="mt-5" />
-        <!-- Side Project -->
-        <ProfileSideProject class="mt-5" />
-        <div class="flex items-center mt-5">
-            <!-- 教育程度 -->
-            <ProfileEducation class="flex-1 h-full" />
-            <!-- 興趣 -->
-            <ProfileInterest class="flex-1 ml-6" />
-        </div>
+  <Breadcrumb
+    class='mt-6'
+    items={[
+      { label: '首頁', href: '/', iconName: 'home' },
+      { label: '關於我', href: '', iconName: 'person' },
+    ]}
+  />
+  <div class='flex flex-col'>
+    <!-- 自我介紹 -->
+    <ProfileIntroduction class='mt-5' />
+    <!-- 工作經歷 -->
+    <ProfileWorkExperience class='mt-5' />
+    <!-- Side Project -->
+    <ProfileSideProject class='mt-5' />
+    <!-- <div class="flex flex-col items-center mt-5"> -->
+    <div class='grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5'>
+      <!-- 教育程度 -->
+      <ProfileEducation class='h-full' />
+      <!-- 興趣 -->
+      <ProfileInterest class='h-full' />
     </div>
+  </div>
 </Layout>
 
 <style></style>
