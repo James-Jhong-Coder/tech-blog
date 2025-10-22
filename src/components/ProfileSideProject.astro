@@ -16,13 +16,16 @@ const { class: className = '' } = Astro.props as Props;
   </div>
   <div class='project-list'>
     <ProfileDetailCard class='detail-card'>
-      <span class='project-title'>技術部落格</span>
+      <a href='https://tech-blog-xi-ochre.vercel.app/' target="_blank" class='project-title'
+        >技術部落格</a
+      >
       <div class='tags mt-4'>
-        <ProfileSkillTag>Astro</ProfileSkillTag>
-        <ProfileSkillTag>TailwindCSS</ProfileSkillTag>
+        <ProfileSkillTag>Astro 5</ProfileSkillTag>
+        <ProfileSkillTag>TailwindCSS 4</ProfileSkillTag>
         <ProfileSkillTag>TypeScript</ProfileSkillTag>
         <ProfileSkillTag>Markdown</ProfileSkillTag>
         <ProfileSkillTag>Vercel</ProfileSkillTag>
+        <ProfileSkillTag>dayjs</ProfileSkillTag>
       </div>
     </ProfileDetailCard>
     <ProfileDetailCard class='detail-card'>
