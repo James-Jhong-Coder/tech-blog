@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import PostList from "@components/PostList.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const allTags = posts.flatMap((p) => p.data.tags ?? []);
+  const uniqueTags = [...new Set(allTags)];
+  return uniqueTags.map((tag) => ({
+    params: { slug: tag },
+  }));
+}
+
+const { slug } = Astro.params;
+const posts = await getCollection("posts", ({ data }) =>
+  data.tags.some((item) => item === slug)
+);
+---
+
+<Layout>
+  <Breadcrumb
+    class="mt-6 mb-10"
+    items={[
+      { label: "首頁", href: "/", iconName: "home" },
+      { label: "標籤列表", href: "/tags", iconName: "tags" },
+      { label: `${slug} 文章列表`, href: "", iconName: "post" },
+    ]}
+  />
+  <PostList class="mt-10" tag={slug} />
+</Layout>

@@ -10,10 +10,10 @@ interface Props {
 const { class: className, title } = Astro.props as Props;
 ---
 
-<div class={`tag-item ${className ?? ""}`}>
+<a href={`/tags/${title}`} class={`tag-item ${className ?? ""}`}>
   <IconTags />
   <span class="ml-2">{title}</span>
-</div>
+</a>
 
 <style>
   @reference "../styles/global.css";
