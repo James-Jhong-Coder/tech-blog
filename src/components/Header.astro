@@ -5,6 +5,7 @@ import NavButton from "@components/NavButton.astro";
 import IconHome from "@/assets/icons/icon_home.svg";
 import IconPostList from "@/assets/icons/icon_post_list.svg";
 import IconPerson from "@/assets/icons/icon_person.svg";
+import IconTag from "@/assets/icons/icon_tag.svg";
 const currentPath = Astro.url.pathname;
 ---
 
@@ -23,6 +24,10 @@ const currentPath = Astro.url.pathname;
       <NavButton class="ml-2" href="/posts" isActive={currentPath === "/posts"}>
         <IconPostList class="mr-1 w-4 h-4" />
         <span>文章列表</span>
+      </NavButton>
+      <NavButton class="ml-2" href="/tags" isActive={currentPath === "/tags"}>
+        <IconTag class="mr-1 w-4 h-4" />
+        <span>標籤</span>
       </NavButton>
       <NavButton class="ml-2" href="/about" isActive={currentPath === "/about"}>
         <IconPerson class="mr-1 w-4 h-4" />

@@ -9,7 +9,7 @@ interface Props {
 const { id = "", class: className = "" } = Astro.props as Props;
 ---
 
-<div class="btn" @click="onTest">
+<div class={`${className} btn`} @click="onTest">
   <span>閱讀更多</span>
   <IconReadMore class="w-5 h-5 ml-2 icon" />
 </div>

@@ -2,12 +2,14 @@
 import dayjs from "dayjs";
 import IconPostDate from "@/assets/icons/icon_post_date.svg";
 import ReadMoreButton from "@/components/ReadMoreButton.astro";
+import PostTag from "./PostTag.astro";
 
 interface Props {
   id?: string;
   title?: string;
   description?: string;
   createDate?: Date | string | number;
+  tags?: Array<string>;
   class?: string;
 }
 
@@ -16,6 +18,7 @@ const {
   title = "",
   description = "",
   createDate,
+  tags = [],
   class: className = "",
 } = Astro.props as Props;
 
@@ -34,7 +37,18 @@ const formattedDate = dayjs(createDate).format("YYYY-MM-DD");
   </div>
 
   <div class="footer mt-6">
-    <ReadMoreButton class="ml-auto" />
+    <div class="flex items-center flex-wrap mb-3">
+      {
+        tags.map((item, index) => (
+          <a class="inline-flex" href={`/tags/${item}`}>
+            <PostTag title={item} class={index > 0 ? "ml-2" : ""} />
+          </a>
+        ))
+      }
+    </div>
+    <a class="ml-auto" href={`/posts/${id}`}>
+      <ReadMoreButton />
+    </a>
   </div>
 </div>
 
@@ -57,7 +71,7 @@ const formattedDate = dayjs(createDate).format("YYYY-MM-DD");
   }
 
   .footer {
-    @apply flex items-center justify-end;
+    @apply flex flex-col;
   }
 
   .card-title {

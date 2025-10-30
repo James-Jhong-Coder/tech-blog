@@ -1,18 +1,32 @@
 ---
 import PostListItem from "@/components/PostListItem.astro";
 import { getCollection } from "astro:content";
-const posts = await getCollection("posts");
-const { class: className } = Astro.props;
----
+interface Props {
+  class?: string;
+  tag?: string;
+}
+const { class: className, tag } = Astro.props as Props;
 
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+
+let filteredPosts = (() => {
+  if (!tag) {
+    return posts;
+  }
+  return posts.filter((post) =>
+    post.data.tags.some((postTag) => postTag === tag)
+  );
+})();
+---
 <div class={`post-list ${className ?? ""}`}>
   {
-    posts.map((post, index) => (
+    filteredPosts.map((post, index) => (
       <a href={`/posts/${post.id}`} class={index > 0 ? "mt-6" : ""}>
         <PostListItem
           id={post.id}
           title={post.data.title}
           description={post.data.description}
+          tags={post.data.tags}
           createDate={post.data.createDate}
         />
       </a>

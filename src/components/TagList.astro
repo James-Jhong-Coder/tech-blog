@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+import TagListItem from "./TagListItem.astro";
+
+interface Props {
+  id?: string;
+  title?: string;
+  class?: string;
+}
+
+const { class: className } = Astro.props as Props;
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+let tags = posts.flatMap((p) => p.data.tags ?? []);
+tags = [...new Set(tags)];
+---
+
+<div class={`tag-list ${className ?? ""}`}>
+  {tags.map((item) => <TagListItem title={item} />)}
+</div>
+
+<style>
+  @reference "../styles/global.css";
+  .tag-list {
+    @apply grid;
+    grid-template-rows: min-content;
+    grid-template-columns: 1fr;
+    gap: 1rem 0;
+  }
+  @media screen and (min-width: 40rem) {
+    .tag-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import IconTags from "@/assets/icons/icon_tag.svg";
+interface Props {
+  id?: string;
+  title?: string;
+  class?: string;
+}
+
+const { class: className, title } = Astro.props as Props;
+---
+
+<a href={`/tags/${title}`} class={`tag-item ${className ?? ""}`}>
+  <IconTags />
+  <span class="ml-2">{title}</span>
+</a>
+
+<style>
+  @reference "../styles/global.css";
+  .tag-item {
+    @apply flex items-center leading-none px-2 py-3;
+    @apply border border-black/20 rounded-lg;
+    transition: all 0.3s;
+    @apply cursor-pointer;
+  }
+  .tag-item:hover {
+    @apply border-black/70 shadow-sm;
+  }
+</style>
