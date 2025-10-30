@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import TagList from "@components/TagList.astro";
+---
+
+<Layout>
+  <Breadcrumb
+    class="mt-6"
+    items={[
+      { label: "首頁", href: "/", iconName: "home" },
+      { label: "標籤列表", href: "", iconName: "tags" },
+    ]}
+  />
+  <div class="flex flex-col">
+    <h1 class="mt-8 text-xl">所有標籤</h1>
+    <TagList class="mt-6" />
+  </div>
+</Layout>
