@@ -10,14 +10,16 @@ const { class: className, tag } = Astro.props as Props;
 const posts = await getCollection("posts", ({ data }) => !data.draft);
 
 let filteredPosts = (() => {
-  if (!tag) {
-    return posts;
+  let result = posts;
+  if (tag) {
+    result = result.filter((post) =>
+      post.data.tags.some((postTag) => postTag === tag)
+    );
   }
-  return posts.filter((post) =>
-    post.data.tags.some((postTag) => postTag === tag)
-  );
+  return result.sort((a, b) => new Date(b.data.createDate).getTime() - new Date(a.data.createDate).getTime())
 })();
 ---
+
 <div class={`post-list ${className ?? ""}`}>
   {
     filteredPosts.map((post, index) => (
