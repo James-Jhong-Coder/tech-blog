@@ -1,0 +1,62 @@
+---
+title: "JavaScript 核心概念"
+description: "JavaScript 核心概念"
+createDate: 2025-11-05
+draft: false
+tags: ["JS 面試題", "JavaScript"]
+---
+import { Code } from 'astro:components';
+import { Prism } from '@astrojs/prism';
+
+
+# 物件、變數與型別
+
+JavaScript 物件可以指派給一個變數並會在執行時期擁有型別
+
+### 什麼叫做執行時期
+
+開發時期因為在寫 code 時，code 還沒有在瀏覽器裡面，這個階段不能對變數進行型別的描述，他不能像是 C 語言一樣用 **int**、**char** 去定義型別，然後在瀏覽器編譯之後就會有型別
+
+### 什麼叫做物件、什麼叫做變數
+
+JavaScript 的物件和變數跟 C 有點不一樣，C 是有一個記憶體空間去儲存值，但是在 JavaScript 裡面不管變數和物件都是物件
+
+那什麼叫做物件，就是記憶體中值會被一個變數所參考，比方說
+
+```
+var a = 1;
+```
+
+那 a 是變數，物件是 1，這個變數必須要是英文字母
+
+### JavaScript 是物件導向程式語言
+
+JavaScript 所有的東西都是物件，那物件有兩種型別，一個是 **物件型別(Object Type)**、一個是**原始型別(Primitive Type)**
+那原始型別有六種
+
+- number 數值
+- string 字串
+- boolean 布林
+- null 空值
+- undefined 為定義
+- BigInt
+- symbol 符號
+  那不管是原始型別還是物件型別都是物件
+
+### 物件型別可以擁有屬性
+
+物件型別都只有屬性，比方說
+
+```js
+const student = {
+    name: 'James',
+    sex: 'male'
+}
+```
+
+那不是 student 擁有屬性，而是 student 參照的物件底下有屬性
+
+## 用 var / let / const 宣告變數
+* <Code code={`var x`} lang="js" inline /> -> 預設 undefined
+* <Code code={`typeof x`} lang="js" inline /> -> "undefined"
+---

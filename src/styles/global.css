@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
 @theme {
@@ -6,7 +6,7 @@
   --color-gray-150: #f1f2f4;
   --color-gray-350: #727282;
   --color-gray-400: #0a0a0a;
-  --color-gray-410: #F4F4F4;
+  --color-gray-410: #f4f4f4;
   --color-gray-430: #717182;
   --color-gray-460: #e5e5e5;
   --color-gray-480: #707080;
@@ -14,5 +14,15 @@
   --color-gray-650: #030213;
   --color-gray-700: #354156;
 
-  --color-yellow-300: #F5BC1E;
+  --color-yellow-300: #f5bc1e;
+}
+@layer components {
+  /* 僅針對 prose 內的 inline code */
+  .prose code {
+    @apply px-2 py-1 rounded-md bg-gray-100 text-rose-600 font-medium;
+  }
+
+  .prose pre code {
+    @apply p-0 bg-transparent text-inherit;
+  }
 }
