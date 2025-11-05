@@ -1,7 +1,12 @@
 <div
-    class="prose prose-gray prose-base prose-li:marker:text-black w-full max-w-full"
+    class="prose prose-gray prose-base prose-li:marker:text-black w-full max-w-full "
 >
     <slot />
 </div>
 
-<style is:global></style>
+<style is:global>
+  .prose :where(code):not(:where([class~="not-prose"] *))::before,
+  .prose :where(code):not(:where([class~="not-prose"] *))::after {
+    content: "" !important;
+  }
+</style>
