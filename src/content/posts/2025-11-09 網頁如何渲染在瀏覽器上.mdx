@@ -1,0 +1,36 @@
+---
+title: "網頁如何渲染在瀏覽器上"
+description: "網頁如何渲染在瀏覽器上"
+createDate: 2025-11-09
+draft: false
+tags: ["JS 面試題", "browser"]
+---
+
+import { Code } from "astro:components";
+
+這一篇我主要想要做這一篇文章的筆記 https://webperf.tips/tip/browser-rendering-pipeline/?utm_source=chatgpt.com
+
+瀏覽器上看到的畫面，都是透過瀏覽器引擎畫出來的
+
+以 chrome 來說，他最有名的就是 v8 引擎
+
+## 網頁渲染步驟
+網頁他會有 html、JS、CSS
+![網頁渲染步驟](/images/web-render-process.png)
+
+1. 當使用者進到網頁時，會拿到 html，接著 browser 他會使用 HTML parser 去把這個 html 的文本轉成 DOM tree 的結構
+2. 那通常 HTML 裡面還會有定義 CSS，因為沒有 CSS 就會長的沒這麼好看，那 browser 他會 CSS 解析成 CSS tree 的結構
+3. 然後他會有一個階段是把這一些 DOM tree 和 CSS tree 結合在一起變成是一個 style tree 在這裡面就會是定義好每一個元素他的樣式是如何，這個階段也稱作 recalculate style 階段
+4. 在 render tree 裡面雖然包含 dom 的寬高或是顏色，但是 browser 還沒有對這些 dom 進行排版，在 Layout process 裡面，也被稱作 reflow，他會把這些內容進行編排，在這個階段他的渲染流程很昂貴，所以如果有用 JS 進行畫面的變動，就會造成整棵樹重新計算 (Reflow) 和 Repaint (重繪)，在這裡面 **box-sizing** 也會影響到 Layout，因為繪製的時候每一個物體的寬高都會被影響
+5. 最後就進行繪製像素（把顏色、邊框畫到圖層）- Repaint
+6. 最後面就會把你要畫的東西轉成給 GPU 讓他進行繪製
+
+通常來說在調整 CSS 時，如果要做特效，可以優先考量 transform 和 opacity，因為這兩個 CSS 是指更動在 GPU 上的圖層，或是可以考慮使用 will-change 事先建立好圖層，如果之後真的有調整 CSS 時可以節省一些效能
+
+
+
+
+
+
+
+
