@@ -5,7 +5,8 @@ createDate: 2025-11-05
 draft: false
 tags: ["JS 面試題", "JavaScript"]
 ---
-import { Code } from 'astro:components';
+
+import { Code } from "astro:components";
 
 # 物件、變數與型別
 
@@ -21,7 +22,7 @@ JavaScript 的物件和變數跟 C 有點不一樣，C 是有一個記憶體空�
 
 那什麼叫做物件，就是記憶體中值會被一個變數所參考，比方說
 
-```
+```js
 var a = 1;
 ```
 
@@ -47,14 +48,332 @@ JavaScript 所有的東西都是物件，那物件有兩種型別，一個是 **
 
 ```js
 const student = {
-    name: 'James',
-    sex: 'male'
-}
+  name: "James",
+  sex: "male",
+};
 ```
 
 那不是 student 擁有屬性，而是 student 參照的物件底下有屬性
 
 ## 用 var / let / const 宣告變數
-* <Code code={`var x`} lang="js" inline /> -> 預設 undefined
-* <Code code={`typeof x`} lang="js" inline /> -> "undefined"
----
+
+- <Code code={`var x`} lang="js" inline /> -> 預設 undefined
+- <Code code={`typeof x`} lang="js" inline /> -> "undefined"
+
+### 以下是個有趣的測試
+
+```js
+var x = 5;
+var x;
+```
+
+以上的 x 在透過 var 重複宣告，不會讓 x 指向的值是 undefined 而是 5
+
+不過如果用 let 的話，這個會 fail，因為變數不能用 let 重複宣告
+
+```js
+let x = 5;
+let x;
+```
+
+## 物件、變數與型別之間的關係
+
+- 物件只存在在執行時期，因為物件是記憶體中的資料
+- 變數是要在開發時期進行宣告，執行時期會是一個記憶體位置用來指向物件
+- 型別是只會在執行時期被指派，因為 JS 是弱型別，無法在開發時期指定
+
+那要記住變數沒有型別，物件才會在執行時期有型別
+
+## 變數與屬性之間的關係
+
+- 變數是在開發時期要宣告的，在執行時期他會有一個指標特性指向物件，變數不能刪除，只有用 var / let / const 宣告的才能算變數
+- 那屬性是在執行時期才有，他可以被**刪除**
+
+## 作用域範圍 Scoping
+
+- 對瀏覽器來說
+  - 不在 function 內宣告的變數，都屬於全域範圍的程式碼
+  - 在 function 內宣告的變數，屬於區域範圍的程式碼
+
+### 執行時期的變數特性
+
+- 這一段程式碼，他因為宣告變數沒有用 var / let / const 宣告，他就不是一個變數是屬性，可以 <Code code={`window.a`} lang="js" inline /> 在 window 物件下看到 a 這個屬性，那這個 a 屬性是可以被刪除的，那宣告之後直接去取用 a 也會是 1
+
+```js
+a = 1;
+window.a; // 1
+a; // 1
+```
+
+- 那如果用以下程式碼一樣會被掛到 window 下，不過這個屬性是不能被刪除的
+
+```js
+var a = 1;
+window.a; // 1
+```
+
+- 這也是蠻有趣的觀察，以下先在 window 加上屬性 a，然後用 var a 宣告 2 這時候 a 會是 2
+
+```js
+window.a = 1;
+var a = 2;
+```
+
+## let 使用方式
+
+在全域用 let 宣告變數，不會污染 window，因為他是 block scope
+在函式裡面印出 a 即便他裡面沒有宣告，他會往外找上一層看有沒有 a 這個變數，如果沒有再往跟物件找，如果再沒有就會報錯
+
+```
+let a = 1;
+(function() {
+  console.log(a)
+})();
+```
+
+### function 作用域和區塊作用域
+
+- function scope
+  - 在函式內部宣告的變數，只能在該函式內被存取，外部無法使用，var 是函式作用域
+
+```js
+function test() {
+  var a = 10;
+  console.log(a); // ✅ 10
+}
+
+test();
+
+console.log(a); // ❌ ReferenceError: a is not defined
+```
+
+- 區塊作用域
+  在 大括號 {} 中宣告的變數，只能在該區塊內被存取。
+  關鍵詞： let、const
+  它們是區塊作用域的（block-scoped）。
+
+以下這個題目會噴錯，原因是因為在 a 被宣告之前，就先印出 a 了
+
+```js
+(function () {
+  let a = 1;
+  var test = function () {
+    console.log(a);
+    let a = 2;
+    console.log(a);
+  };
+  return test();
+})();
+```
+
+```js
+(function () {
+  for (let i = 0; i < 10; i++) {
+    setTimeout(() => {
+      console.log(i);
+    }, 100 * i);
+  }
+})()(function () {
+  for (var i = 0; i < 10; i++) {
+    setTimeout(() => {
+      console.log(i);
+    }, 100 * i);
+  }
+})();
+```
+
+## 型別
+
+JavaScript 所有的東西都是物件，有分兩大 type
+
+- 原始型別 (無法自由擴增屬性)
+  - number
+  - string
+  - boolean
+  - null
+  - undefined
+  - BigInt
+  - symbol
+- 物件型別 (可以自由擴增屬性)
+  - 原生物件
+  - 宿主物件
+
+原始型別不允許擁有屬性的範例
+
+```js
+var a = 1;
+a.name = "James";
+console.log(a.name); // undefined
+```
+
+但是以下的範例可以透過把 prototype 擴增屬性，藉此讓原始型別也擁有屬性
+
+```js
+Number.prototype.test = "aaa";
+var a = 1;
+console.log(a.test);
+```
+
+那可不可以將他 delete 答案是不行
+
+```js
+delete a.test;
+console.log(a.test); // 1
+```
+
+### 字串
+
+```js
+var a = "James";
+var b = a[0];
+a[0] = "K";
+console.log(a); // James
+```
+
+這一段因為字串本身不允許擁有屬性，所以 <Code code={`a[0] = 'K'`} lang="js" inline /> 這段沒有意義
+
+## 原始型別包裹物件
+
+```js
+var a = new Number(5);
+a.name = "James";
+console.log(a.valueOf()); // 5
+```
+
+## 字串
+
+任何一個東西只要跟字串連接他就會被轉型成字串
+
+```js
+11 + '11' = '1111'
+11 + {} = '11[object Object]'
+```
+
+## 布林
+
+### Truthy 和 Falsy
+
+Falsy 的值主要有 6 個，這幾個都會被轉成 false，其他都是 true
+
+- null
+- undefined
+- false
+- 0
+- ""
+- NaN
+
+有些很有趣的例外
+
+- <Code code={`null == false // false`} lang="js" inline />
+- <Code code={`null == true // false`} lang="js" inline />
+- <Code code={`undefined == false // false`} lang="js" inline />
+- <Code code={`undefined == true // false`} lang="js" inline />
+- <Code code={`null == null // true`} lang="js" inline />
+- <Code code={`undefined == undefined // true`} lang="js" inline />
+- <Code code={`undefined == null // true`} lang="js" inline />
+- <Code code={`NaN == null // false`} lang="js" inline />
+- <Code code={`NaN == undefined // false`} lang="js" inline />
+- <Code code={`NaN == NaN // false`} lang="js" inline />
+
+### 做 boolean 型別的比對 == vs ===
+
+- == 是隱含比對，會引發自動轉型
+- === 是明確比對，會連同型別一起判斷
+
+以下是一些舉例
+
+- 11 == '11'
+  任何兩個物件相比，用兩個等號或三個等號相比永遠為 false
+
+## JavaScript 原始型別: 空值
+
+- typeof(NaN) => "number" 不是一個數值，但型別卻是一個數值
+- typeof(null) => "object" 不是一個物件，但型別是物件
+
+## JavaScript 函式物件
+
+- 函式物件就是一般物件，另外可以被呼叫
+
+```js
+var a = function () {};
+typeof a;
+a.x = 1; // 可以在裡面加上屬性
+```
+
+函式物件的特色
+
+- 一級物件
+  - 可以被動態建立，可以指定給變數，用有自己的屬性或方法
+- 有變數的作用域
+  - 在裡面宣告的變數會變成區域變數
+
+那二級物件需要依附在一個 class 底下
+
+- 函式有分兩種
+  - 函式表示式
+    - 把函式當成物件來看
+  - 函式宣告式
+    - 把函式不當成物件看
+
+## var 會有變數宣告的問題 : hoisting
+
+* JS 允許在任何位置使用 var 宣告變數，且允許重複宣告
+* 執行時期所有 var 宣告的變數，都會自動提升至範圍第一行
+* 那函式宣告也要被往上提
+
+```js
+var name = "James";
+(function () {
+  console.log(name);
+  var name = "Bob";
+  console.log(name);
+})();
+```
+所以以上的程式碼，會變成這樣
+```js
+var name = "James";
+(function () {
+  var name;
+  console.log(name);
+  name = "Bob";
+  console.log(name);
+})();
+```
+
+```js
+(function GetBook() {
+  var test = function() { return 1; }
+  function test() { return 2; }
+  return test();
+})();
+```
+這題答案是 1，因為
+```
+
+```
+
+* JS 不允許在用 let 宣告變數之前使用該變數，且不允許重複宣告
+* 執行時期所有用 let 宣告的變數都會自動提升自第一行
+
+## 閉包 (closure)
+* 內層函式可以使用外層函式的變數
+* 外層韓式宣告的變數可以在內層函式中使用
+* 最主要是用來解決狀態保存的問題
+
+```js
+function MyFunc() {
+  var count = 0;
+  return {
+    GetCount: function() {
+      count++;
+      return count;
+    }
+  }
+}
+
+var foo = MyFunc()
+foo.GetCount()
+```
+
+## 箭頭函式
+* 箭頭函式沒有 this、argument、super、new target 可用
