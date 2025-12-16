@@ -1,0 +1,27 @@
+---
+title: "web 效能知識大補帖"
+description: "web 效能知識大補帖"
+createDate: 2025-11-13
+draft: false
+tags: ["web 效能"]
+---
+
+import { Code } from "astro:components";
+
+## 如何測量網站效能
+* 可以使用 Google Lighthouse
+![網頁渲染步驟](/images/flip-card-light-house-panel.png)
+lighthouse 可以在網頁 devtool 中的 Lighthouse 中找到
+
+* 使用 https://pagespeed.web.dev/
+
+## Google 用來衡量網站的指標
+* LCP(Largest Contentful Paint)
+    - 網站主要內容載入速度
+    - 為了提供良好的使用者體驗，網站應力求 Largest Contentful Paint 為 2.5 秒以下。為確保多數使用者都能享有此等級的體驗，建議您以第 75 個百分位數做為評估門檻，並區分行動裝置和電腦裝置的網頁載入情形。
+    - 這個白話來說，就是去看網頁載入的時候，畫面上什麼時間點 user 可以看到完整畫面
+* FID(FIrst Input Delay)
+    - 使用者第一次互動的反應速度
+    - FID 是使用者第一次點擊、點按、鍵盤輸入時，瀏覽器因為忙碌沒辦法立即回應造成的延遲。越短越好
+* CLS(Cumulative Layout Shift)
+    - 排版是否跳動

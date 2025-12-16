@@ -1,0 +1,274 @@
+---
+title: "TypeScript 語法 - part1"
+description: "這一篇主要是關於 TypeScript 筆記"
+createDate: 2025-12-12
+draft: false
+tags: ["TypeScript", "JavaScript"]
+---
+
+import { Code } from "astro:components";
+
+## 什麼是 TypeScript
+TypeScript 是在 JavaScript 之上加入型別系統的超集語言，用來改善大型專案的可維護性。完全相容 JavaScript，所有 JS 語法在 TypeScript 中都可以使用。
+
+提供額外的功能，比如型別註記、interface、泛型與 enum ... 等，在開發大型專案的時候可以有更多的彈性。這些特性讓 TypeScript 特別適合用於規模較大的前端或全端專案，能有效降低維護成本與錯誤風險。
+
+## 基礎類型
+在 TypeScript 裡面有很多基礎類型，number、string、boolean
+
+### 數值
+``` js
+let num1: number = 10; // 明確指定類型
+let num2 = 999; // 由 TypeScript 推導出類型為 number
+num2 = 'str' // X 這一行會報錯
+```
+以上這兩種寫法都可以，在第二種宣告即便沒有加型別，typeScript 也會自動推斷他是數字
+那這個類型的好處是，我們不能 assign 其他的變數給他
+
+### 字串
+``` js
+let str1: string  = 'James'; // 明確指定類型
+let str2 = 'James2'; // 由 TypeScript 推導出類型為 string
+str2 = 100 // X 這一行會報錯
+```
+字串一樣可以直接指定型別，或是由 TypeScript 去推導，一旦宣告成字串之後，就不能在 assign 除了字串以外的值給他
+
+### boolean
+``` js
+let bool1: boolean  = false; // 明確指定類型
+let bool2 = true; // 由 TypeScript 推導出類型為 boolean
+bool2 = 100 // X 這一行會報錯
+```
+boolean 可以直接指定型別，或是由 TypeScript 去推導，一旦宣告成字串之後，就不能在 assign 除了布林以外的值給他
+
+### null 和 undefined
+```js
+let un1 = undefined // 要注意這一行的型別會是 any
+let un2: undefined // 要明確指定他的型別才會是 undefined
+```
+
+```js
+let n1 = null; // 要注意這一行的型別會是 any
+let n2: null // 要注意這一行的型別會是 null
+```
+
+null 和 undefined 會比較特別一點，要特別宣告他們的型別才可以是 null 和 undefined 否則就都是 any
+而 any 就是預設不檢查型別，不推薦使用
+
+## 避免使用 any
+在 TypeScript 裡面如果你使用 any 那這個型別的變數就可以 assign 任何型別的變數給他，那假如說使用這個變數去調用不屬於這個型別的方法時就 TypeScript 就不會幫你檢查到
+
+比方說
+```js
+let a: any
+a.length // 這一行會報錯，而且在編譯階段不會檢查到
+```
+
+## Array
+```js
+const arr1 = [1, 2, 3];
+const arr2 = [1, 2, '3'];
+```
+
+以上這兩種陣列第一個會被推導成 number 的 array，第二個是 (string | number)[] 代表說他裡面的內容可以是數字和字串
+
+### 強制指定 Array 內的型別
+```js
+const arr1: string[] = ['1', '2', '3'];
+const arr2: Array<string> = []
+const arr3: (string | number) = [1, 2, '3'];
+```
+以上這兩種寫法都可以成立，只是第二種 <Code code={`Array<string>`} lang="js" inline /> 他是屬於泛型的宣告方式
+
+那 arr3 他是代表他裡面的元素只可以是 string 或 number
+
+## tuple
+tuple 和 array 最大的不同是他限制了數量和順序性
+
+那他也可以設定二維陣列
+```js
+const tu1: [number, string, boolean] = [1, '1', false];
+const tu2: [number, number][] = [[11, 22], [33, 44]];
+```
+
+## Object
+```js
+const student = {
+    name: "Alice",
+    sex: "Female"
+}
+```
+
+以上這個物件會被推導成以下型別
+```js
+const student = {
+    name: string,
+    sex: string
+}
+```
+
+那也跟其他型別一樣可以直接指定型別
+```js
+const student: {
+    name: string,
+    sex: string
+} = {
+    name: 'Alice',
+    sex: 'Female'
+}
+```
+
+### 設定可選選項
+在定義物件時，如果說該物件某些屬性要讓他可以選擇不傳入那可以使用 <Code code={`?`} lang="js" inline />，代表可傳可不傳
+```js
+const student: {
+    name: string,
+    sex: string,
+    age?: number
+} = {
+    name: 'Alice',
+    sex: 'Female',
+}
+```
+
+## unknown
+unknown 和 any 有點像，但是他是一個比較安全的 any
+
+他與 any 特性一樣，可以被 assign 任何型別的數值
+
+```js
+const name1: unknown = "James"
+name1 = 123
+```
+
+## 斷言 type assertion
+這個語法可以手動指定一個值的型別
+
+
+```js
+let name2: unknown = 'James'
+name3 = name2 as string
+```
+
+通常來說可以在 api 取得資料之後手動去 assign 該資料的類型
+```js
+async function getData() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+  const data = await res.json() as {
+    userId: number,
+    id: number,
+    title: string,
+    computed: boolean
+  } ;
+}
+```
+
+## any 和 unknown 的區別
+unknown 是一個比較安全的 any，因為它不會關閉 TypeScript 的型別檢查。
+
+第一，any 會直接關閉型別系統，你可以對變數做任何操作，編譯器都不會報錯，風險會全部留到執行期。
+
+第二，unknown 代表型別未知，但在使用前必須先做型別判斷或縮小，否則 TypeScript 會阻止你操作。
+
+所以在無法確定資料型別的情況下，應該優先使用 unknown，在保有彈性的同時，也能維持型別安全。
+
+```js
+let value: any = 'hello';
+value.toUpperCase();   // OK
+value.foo.bar();       // OK（即使實際執行會錯）
+```
+
+相反地，unknown 代表「我不知道這是什麼型別」，但 TypeScript 會要求你在使用它之前，先做型別檢查或型別縮小（type narrowing），確保操作是安全的。
+
+```js
+let value: unknown = 'hello';
+
+// value.toUpperCase(); // ❌ 編譯錯誤
+
+if (typeof value === 'string') {
+  value.toUpperCase(); // ✅ 安全
+}
+```
+
+## union 型別
+可以透過 union 宣告一個型別，可以接收不一樣的類型，也就是說這個值「可能是 A，也可能是 B」，只要符合其中一種就行。
+
+所以它的精神是「保留彈性」，但同時也要求你「在使用前先確認目前是哪一種」
+
+```js
+const arr: (string | boolean)[] = [] // 可以接收 string 和 boolean 的陣列
+```
+
+### narrowing 縮小型別
+這是相關的文章 https://www.typescriptlang.org/docs/handbook/2/narrowing.html
+
+以下這個例子，function 的參數可以接收字串和數字，在沒有判斷型別的情況下 TypeScript 會丟一個警告出來
+```js
+function printLength(value: string | number) {
+  return value.length
+}
+```
+
+那麼比較好的做法是，先判斷他是什麼型別，再進行長度的處理
+```js
+function printLength(value: string | number) {
+  if (typeof value === 'string') {
+    // 這個區塊內，value 被 narrowed 成 string
+    return value.length
+  }
+
+  // 走到這裡，value 一定是 number
+  return value.toString().length
+}
+```
+
+
+如果說我想要對 arr
+
+## never 型別
+他是一個永遠不可能發生的類型
+
+在 TypeScript never 是
+* never 是 所有型別的子型別
+* 沒有任何值可以賦給 never
+* 它代表「邏輯上不可能出現的結果」
+
+以下是 never 可以出現的三個情境
+### 永遠不會正常結束的函式
+
+這個函式不會 return
+```js
+function throwError(message: string): never {
+  throw new Error(message)
+}
+```
+
+### 無限迴圈
+* 永遠不會結束
+```js
+function infiniteLoop(): never {
+  while (true) {}
+}
+```
+
+## 強制斷言
+強制斷言（Type Assertion） 是告訴 TypeScript，「我比你更清楚這個值的型別，請你先相信我。」
+
+但是只影響編譯期，不影響執行期，比方說以下例子還是會發生錯誤
+
+```js
+const value: unknown = 123
+const str = value as string
+str.split('') // runtime error
+```
+
+重點二：能不用就不用，優先使用 Type Narrowing
+```js
+// ❌ 強制斷言
+(value as string).split('')
+
+// ✅ Type Narrowing
+if (typeof value === 'string') {
+  value.split('')
+}
+```

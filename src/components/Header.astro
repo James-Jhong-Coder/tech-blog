@@ -18,7 +18,7 @@ const currentPath = Astro.url.pathname;
     </div>
     <div class="ml-auto flex items-center">
       <NavButton isActive={currentPath === "/"}>
-        <IconHome class="mr-1 w-4 h-4" href="/" />
+        <IconHome class="mr-1 w-4 h-4 shrink-0" href="/" />
         <span>首頁</span>
       </NavButton>
       <NavButton class="ml-2" href="/posts" isActive={currentPath === "/posts"}>

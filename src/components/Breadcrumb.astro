@@ -30,35 +30,56 @@ const iconMapping: Record<IconName, AstroComponentFactory> = {
 };
 ---
 
-<nav class={`breadcrumb ${className}`}>
-  {
-    items.map((item, index) => {
-      const Icon = item.iconName ? iconMapping[item.iconName] : null;
-      return (
-        <div
-          class={`flex items-center ${index < items.length - 1 ? "text-muted cursor-pointer" : ""}`}
-        >
-          <a
-            class={`item ${index < items.length - 1 ? "muted-item" : ""}`}
-            href={item.href}
+<div class={`breadcrumb-box ${className}`}>
+  <div class="breadcrumb-list">
+    {
+      items.map((item, index) => {
+        return (
+          <div
+            class={`flex items-center ${index < items.length - 1 ? "text-muted cursor-pointer" : ""}`}
           >
-            {Icon ? <Icon class="icon mr-1.5" /> : null}
-            <span>{item.label}</span>
-          </a>
-          {index < items.length - 1 ? (
-            <IconBreadcrumbArrow
-              class="mx-2 w-3 h-3 shrink-0 translate-y-[1px]"
-              aria-hidden="true"
-            />
-          ) : null}
-        </div>
-      );
-    })
-  }
-</nav>
-
+            <a
+              class={`breadcrumb-list-item ${index < items.length - 1 ? "muted-item" : ""}`}
+              href={item.href}
+            >
+              <span>{item.label}</span>
+            </a>
+            {index < items.length - 1 ? (
+              <IconBreadcrumbArrow
+                class="w-3 h-3 mx-2 shrink-0"
+                aria-hidden="true"
+              />
+            ) : null}
+          </div>
+        );
+      })
+    }
+  </div>
+</div>
 <style>
   @reference "../styles/global.css";
+  .breadcrumb-box {
+    @apply flex items-center;
+    @apply overflow-x-auto;
+    @apply py-3;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .breadcrumb-list {
+    @apply flex items-center;
+    @apply leading-none;
+    @apply flex-nowrap;
+    @apply w-full;
+  }
+
+  .breadcrumb-list-item {
+    @apply flex items-center shrink-0 text-lg;
+  }
+
   .breadcrumb {
     @apply flex items-center;
     @apply leading-none;
@@ -68,14 +89,15 @@ const iconMapping: Record<IconName, AstroComponentFactory> = {
     transition: all 0.3s;
   }
   .breadcrumb .item .icon {
-    @apply w-[0.875rem] h-[0.875rem] translate-y-[1px];
-    transition: transform 0.2s;
+    @apply w-4 h-4;
+    /* @apply w-[0.875rem] h-[0.875rem] translate-y-[1px]; */
+    /* transition: transform 0.2s; */
   }
   .breadcrumb .muted-item:hover {
     @apply text-gray-900 font-medium;
   }
   .breadcrumb .muted-item:hover .icon {
-    transform: scale(1.2);
+    /* transform: scale(1.2); */
   }
   .text-muted {
     @apply text-gray-480;
