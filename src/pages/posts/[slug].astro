@@ -42,7 +42,7 @@ const { Content } = await render(post);
     items={[
       { label: "首頁", href: "/", iconName: "home" },
       { label: "文章列表", href: "/posts", iconName: "postList" },
-      { label: post.id, href: "", iconName: "post" },
+      { label: post.data.title, href: "", iconName: "post" },
     ]}
   />
   <div class="post-meta mb-6">

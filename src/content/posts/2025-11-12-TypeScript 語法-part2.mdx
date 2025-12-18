@@ -1,0 +1,382 @@
+---
+title: "TypeScript 語法 - part2"
+description: "這一篇主要是關於 TypeScript 筆記 - part2"
+createDate: 2025-12-16
+draft: false
+tags: ["TypeScript", "JavaScript"]
+---
+
+import { Code } from "astro:components";
+
+## type 自定義類型
+
+TypeScript 允許我們透過 type 定義自訂型別，用來描述資料結構與型別規則。
+
+在大型專案中，這能有效提升程式碼的可讀性、可維護性與一致性。
+
+type 的核心價值主要體現在兩個面向：
+
+1. 提升重用性: 將常用或重複出現的型別抽出命名，避免在不同檔案中重複撰寫相同的型別結構。
+   如以下範例，隨著 user 資料越來越多，可以將這些型別定義成 User 提高可讀性
+
+```js
+type User = {
+  id: number,
+  name: string,
+  email: string,
+};
+
+type UserList = User[];
+```
+
+2. 抽象複雜結構、強化語意表達: 對於結構較複雜的型別，透過 type 命名可以清楚表達其用途，讓後續維護者快速理解型別代表的意義。
+   例如以下範例，可以用 LoadingState 表達載入的狀態
+
+```js
+type LoadingState = "idle" | "loading" | "success" | "error";
+```
+
+因此，type 本質上是為複雜型別建立清楚的名稱與組合規則，在大型與多人協作的專案中，能有效降低理解成本並提升整體維護品質。
+
+主要有兩個重點
+
+1. 可以 reuse
+2. 針對比較複雜的結構可以定義型別起來讓往後在維護的時候可以更清楚這些型別的意義
+
+所以 type 可以為複雜的型別建立更清楚的名稱和組合規則，在大型與多人協作的專案中發揮真正的可讀性和維護性
+
+## interface 介面
+
+interface 是 TypeScript 用來描述物件結構的工具，特別適合用在物件導向設計與對外 API 規範中。
+
+那重點有兩個
+
+1. interface 專注於描述物件的結構，interface 主要用來定義物件必須具備哪些屬性與方法
+
+```js
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+const user: User = {
+  id: 1,
+  name: "James",
+  email: "james@example.com",
+};
+```
+
+2. interface 支援 extends 與宣告合併
+   interface 可以透過 extends 進行擴充，並且支援宣告合併，讓型別設計具備良好的延展性。
+   例如說
+
+```js
+interface Person {
+  name: string;
+  age: number;
+}
+
+interface Employee extends Person {
+  company: string;
+  position: string;
+}
+```
+
+所以 interface 主要就是在描述物件的結構，很適合用在需要複雜的系統裡面
+
+## type 和 interface 有什麼不一樣
+
+從前面的範例可以發現，type 和 interface 在多數情況下都能用來描述相似的型別結構，因此在基本使用上看起來非常接近。
+
+真正的差異主要體現在「擴充方式」與「合併行為」上。
+
+擴充方式的差異
+
+### type 的擴充方式
+
+type 是透過 交集型別 & 來進行擴充，將多個型別組合成一個新的型別。
+
+```js
+type Person = {
+  name: string,
+};
+
+type Student = Person & {
+  age: number,
+};
+```
+
+這種方式比較偏向「型別組合」，常用在需要彈性拼接型別的情境。
+
+### interface 的擴充方式
+
+interface 則是透過 extends 來做擴充，語意上更接近物件導向中的「繼承」。
+
+```js
+interface Person {
+  name: string;
+}
+
+interface Student extends Person {
+  age: number;
+}
+```
+
+這種寫法在描述「is-a 關係」時更加直覺，也較常用於結構穩定的資料模型。
+
+以下是合併方式不一樣
+
+### interface 支援宣告合併
+
+interface 可以合併，但是 type 不行
+
+當宣告多個同名的 interface 時，TypeScript 會自動將它們合併成同一個介面。
+
+```js
+interface Person {
+  name: string;
+}
+
+interface Person {
+  age: number;
+}
+```
+
+最終的 Person 會同時擁有 name 與 age 兩個屬性。
+
+### type 不支援宣告合併
+
+相同名稱的 type 不能重複宣告，否則會造成編譯錯誤，這也讓 type 在型別設計上更加嚴謹。
+
+type 和 interface 都能定義型別，但 type 偏向型別運算與組合，而 interface 更適合描述穩定、可擴充的物件結構與合約。
+
+## Enums 枚舉
+
+Enum 可以翻譯為枚舉或列舉，主要用來定義一組具名的常數集合，避免在程式碼中直接使用 magic number，進而提升可讀性與一致性。
+
+### 為什麼需要 enum ?
+
+假使今天有一個訂單的狀態，在沒有使用 enum 的情況下，訂單狀態通常會以數字來表示，閱讀時必須額外對照數字所代表的意義。
+
+```js
+// 沒有 enum
+if (orderStatus === 0) {
+  // pending
+}
+```
+
+這樣的寫法可讀性較低，也容易在維護時產生誤解。
+
+### 使用 enum 之後
+
+透過 enum 將狀態集中定義，並以具語意的名稱來取代數字。
+
+```js
+enum OrderStatus {
+  Pending,
+  Paid,
+  Shipped,
+  Completed,
+}
+if (orderStatus === OrderStatus.Pending) {
+  // 處理待處理訂單
+}
+
+這樣在閱讀程式碼時，不需要額外註解也能清楚知道狀態代表的意義。
+```
+
+總結來說 enum 適合用來定義固定且不常變動的狀態或分類，透過具名常數取代硬編碼的數字或字串，讓程式碼更容易閱讀，也更容易維護。
+
+## function 函式
+
+TypeScript 可以在函式的參數上指定要傳入的類型，比方說如果我寫了一個 add function 他必須要接收兩個數字，但是我傳入的其中一個參數是字串，在 JavaScript 只能靠人工檢查
+
+```js
+function add(a, b) {
+  return a + b;
+}
+add("1", 2); // 得到 '12'
+add(1, 2); // 得到 3
+```
+
+但是 TypeScript 可以讓我們指定傳入的參數都是數字
+
+```js
+function add(a: number, b: number) {
+  return a + b;
+}
+add(1, "2"); // ❌ 這一行 TypeScript 會出錯
+```
+
+### 可選的參數
+
+可以在定義參數上加上 <Code code={`?`} lang="js" inline /> 讓 TypeScript 知道說這個參數可傳可不傳
+
+```ts
+function multiply(a: number, b: number, c?: number): number {
+  if (typeof c !== "undefined") {
+    return a * b * c;
+  }
+  return a * b;
+}
+multiply(1, 2);
+```
+
+### 指定 function 回傳的類型
+可以指定 function 回傳的類型
+
+```ts
+function getName(): string {
+  return ''
+}
+```
+
+### 指定物件類型
+
+那這樣我在定義 function 
+
+```ts
+type Info = {
+  name: string,
+  age: number
+}
+
+function createUser(info: Info) {
+  console.log(info.name)
+}
+```
+
+### 不會回傳任何東西 never、void
+
+void 和 never 都是代表不會回傳任何東西
+
+never 是「這個函式不可能執行完，通常是丟錯誤或無限迴圈」
+
+```js
+function getUserData(): never {
+  throw new Error('user error !')
+}
+```
+
+never 可以用在型別縮小裡面
+
+```js
+type Role = 'admin' | 'user'
+
+function handleRole(role: Role) {
+  if (role === 'admin') {
+    // ...
+  } else if (role === 'user') {
+    // ...
+  } else {
+    const _check: never = role
+    // 如果 Role 之後多一個 'guest'
+    // 這裡會直接 TS error
+  }
+}
+```
+
+void 是「這個函式會執行完，但不回傳資料」
+```js
+function hello(): void {
+  console.log('hello')
+}
+```
+
+### 將 function 作為建構式
+
+在 TypeScript 中，function 裡的 this 不會自動推導，必須要特別指定 this 的型別，所以寫法不會很漂亮
+
+改用 class 是比較好的寫法
+
+```js
+class Car {
+  make: string
+  model: string
+  year: string
+
+  constructor(make: string, model: string, year: string) {
+    this.make = make
+    this.model = model
+    this.year = year
+  }
+}
+
+const myCar = new Car('Toyota', 'Corolla', '2020')
+```
+
+### 回傳有時候會自動推導為 tuple 而不要讓 TypeScript 推導成 union Array 
+
+以下程式碼如果沒有指定回傳型別，那他會被推導為 <Code code={`(string | number)[]`} lang="js" inline />
+
+這樣之後在使用相關數值時要做型別縮小
+```js
+function getArr() {
+  return [0, 1, 'bruce']
+}
+
+const [id, age, userName] = getArr()
+```
+
+那最好的方式就是使用 tuple
+```js
+function getArr() {
+  return [0, 1, 'bruce'] as [number, number, string]
+}
+
+const [id, age, userName] = getArr()
+```
+
+## function 泛型 (generic)
+
+泛型是用來讓型別延後決定的一種機制，可以在不失去型別安全的前提下，寫出可重複使用、具彈性的程式碼
+
+那他主要有兩個功用
+
+1. 第一個是避免寫死型別，提高重用性
+2. 第二個是比 any 安全，保留型別推導能力
+
+這個 T 也就是 type 的意思
+
+```js
+function foo<T>(data: T) {
+  console.log(data)
+}
+
+foo<number>(10); // 正確，因為傳入給泛型型別是 number，那傳入的參數也是 number 所以沒有問題
+foo<string>(10); // ❌  傳入的數字 10 與 string 不一致
+```
+
+## function overload
+function overload 是只說同一個函式在不同參數的型別下，會有不同回傳型別的能力
+
+1. 第一點他可以解決單一函式多種使用情境的型別問題
+在實務上，有時候一個函式他有可能會需要根據傳入的參數的型別或數量，產生不同的回傳結果，overload 可以把這些情境明確的寫成型別規則
+2. 實作只有一份，型別宣告可以有多份
+TypeScript 的 overload 只存在於型別層級，真正的 function 實作只能有一個，而且這個實作必須能涵蓋所有 overload 宣告。
+
+```js
+function getData(data: string): string;
+function getData(data: number): number;
+function getData(data: string | number): string | number {
+  console.log("data = ", data);
+  return ''
+}
+```
+
+### 避免 function overload 錯誤
+如果是這樣寫會發生錯誤，因為回傳值並沒有涵蓋所有的 overload 型別
+
+```js
+function getData(data: string): string;
+function getData(data: number): number;
+function getData(data: string | number): string {
+  console.log("data = ", data);
+  return ''
+}
+```
+
+那 function generic 和 overload 的差別是在於
+1. 泛型（Generic）是用來「保持輸入與輸出型別關係」
+2. Overload 是用來「描述多組不同的參數與回傳型別組合」。
