@@ -1,0 +1,261 @@
+---
+title: "TypeScript 語法 - part3"
+description: "這一篇主要是關於 TypeScript 筆記 - part3 - 關於 class"
+createDate: 2025-12-16
+draft: false
+tags: ["TypeScript", "JavaScript"]
+---
+
+import { Code } from "astro:components";
+
+## 什麼是物件導向
+
+物件導向是一種把系統拆成「物件」，透過封裝、繼承、多型來提升程式可讀性與可維護性的設計方式。
+
+1. 物件同時擁有屬性和方法
+2. 物件導向的精神就是封裝、繼承、和多型
+
+藉由物件導向讓大型專案可以更好擴充和維護，特別適合多人協作和需求頻繁變動的系統
+
+## class 怎麼定義型別
+
+我們可以透過 interface 去定義這個 class 有什麼東西，他裡面可以定義屬性和方法，然後要去 implements 他，這樣 typeScript 就會強制你要在 class 新增對應的方法或成員變數
+
+```js
+interface PersonInterface {
+  id: number
+  name: string
+  age: number
+  address: string
+
+  eat(food: string): void
+}
+
+class Person implements PersonInterface {
+  id: number
+  name: string
+  age: number
+  address: string
+
+  constructor(
+    id: number,
+    name: string,
+    age: number,
+    address: string
+  ) {
+    this.id = id
+    this.name = name
+    this.age = age
+    this.address = address
+  }
+
+  eat(food: Food): void {
+    console.log(
+      `${this.name} 吃了 ${food.name}，攝取 ${food.calories} 大卡`
+    )
+  }
+}
+```
+
+## class extends
+
+類別可以去繼承其他類別，可以用 extend 去使用通用類別的方法或屬性
+
+那子類別也可以去覆寫或擴充父類別的方法
+
+子類別如果想要使用父類別的東西，可以使用 super
+
+例如說
+
+```js
+class Shape {
+  constructor(name) {
+    this.name = name;
+  }
+
+  getName() {
+    return this.name;
+  }
+
+  getArea() {
+    throw new Error("getArea() must be implemented by subclass");
+  }
+}
+
+class Triangle extends Shape {
+  constructor(base, height) {
+    super("Triangle"); // 一定要先呼叫 super
+    this.base = base;
+    this.height = height;
+  }
+
+  getArea() {
+    return (this.base * this.height) / 2;
+  }
+}
+```
+
+## 抽象類別 (abstract class)
+
+abstract class 用來定義「可以共用實作 + 強制子類別實作的骨架」，跟 interface 不一樣的是他可以預先實作功能
+
+但是抽象類別是不能被 new 的
+
+```js
+abstract class Shape {
+  constructor(protected name: string) {}
+
+  // 已實作的方法（可直接共用）
+  getName(): string {
+    return this.name
+  }
+
+  // 抽象方法（子類一定要實作）
+  abstract getArea(): number
+}
+
+class Triangle extends Shape {
+  constructor(
+    private base: number,
+    private height: number
+  ) {
+    super('Triangle')
+  }
+
+  getArea(): number {
+    return (this.base * this.height) / 2
+  }
+}
+```
+
+## class 中的成員變數
+
+在 class 中的變數有三種類型的變數，私有變數、公有變數、保護變數
+
+### public 公有變數
+
+在 class 裡面如果沒有特別寫，預設是 public
+
+```js
+class User {
+  name: string = "James"; // 預設是 public
+}
+
+const user = new User();
+user.name; // 可以直接取用公有變數
+```
+
+### private
+
+那私有變數就不能直接用物件去取用，不過在生產階段還是可以自由取用，因為私有變數是 TypeScript 給出的功能
+
+或是比較新的語法可以加上 #，但目前有些瀏覽器不支援，這是 JS 原生的寫法，那他不會被轉成普通屬性，也不存在於 this 上
+
+```js
+class User {
+  private name: string = 'James' // 私有變數
+  #id: string = "A123456789"
+}
+
+const user = new User();
+user.name // ❌ 不能直接取用私有變數，會報錯
+```
+
+### protected
+
+private 的變數是繼承的子類別也無法取用該變數，但是 protected 可以被使用
+
+但是一樣不能被 new 出來的物件使用
+
+```js
+class User {
+  protected name: string = 'James' // 私有變數
+}
+
+class Admin extends User {
+  constructor() {
+    getName() {
+      console.log(this.name)
+    }
+  }
+}
+
+```
+
+## static 靜態類別
+
+是可以特別讓 class 當中的某些變數或方法被共用，那我們可以不用 new 他就可以直接使用
+
+那靜態變數一樣可以是私有變數，那只有 static 的函式可以呼叫 static 的變數
+
+```js
+class Bank {
+  private static balance: number = 1000;
+  static deposit(money: number) {
+    this.balance += money;
+  }
+}
+console.log(Bank.balance);
+```
+
+## class 的 this
+
+傳統函式的 this 取決於「呼叫方式」，箭頭函式的 this 在宣告時就被綁定。
+
+### class 傳統函式
+
+```js
+class Counter {
+  count = 0
+
+  increase() {
+    this.count++
+    console.log(this.count)
+  }
+}
+
+const c = new Counter()
+c.increase() // ✅ 1
+```
+
+但是因為傳統函式的 this 取決於誰呼叫他，如果是這樣寫就會錯誤
+
+因為 this 會指向 window
+
+```js
+setTimeout(c.increase, 1000)
+```
+
+### class 裡用「箭頭函式」
+
+因為箭頭函式沒有自己的 this
+
+所以在宣告的時候就會被綁定到 class 的 instance 上
+
+但是缺點是箭頭函式是每一個 instance 一份，傳統函式會被放到 prototype 裡面，要注意記憶體的使用
+
+```js
+class Counter {
+  count = 0
+
+  increase = () => {
+    this.count++
+    console.log(this.count)
+  }
+}
+
+const c = new Counter()
+setTimeout(c.increase, 1000) // ✅ 正常
+```
+
+
+```js
+class Person {
+  name: string = "James"
+
+  constructor() {
+    this.title = ''
+  }
+}
+```
+
