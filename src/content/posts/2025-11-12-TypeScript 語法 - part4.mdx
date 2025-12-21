@@ -1,0 +1,273 @@
+---
+title: "TypeScript 語法 - part4 - generic"
+description: "這一篇主要是關於 TypeScript 筆記 - part3 - generic"
+createDate: 2025-12-21
+draft: false
+tags: ["TypeScript", "JavaScript"]
+---
+
+import { Code } from "astro:components";
+
+## 什麼是泛型
+
+泛型是一種在宣告時保留型別彈性、在使用時才決定實際型別的機制，讓函式、型別或類別能在保持型別安全的前提下重複使用。
+
+1. 沒有泛型時，為了支援不同的型別，常見做法是寫很多幾乎一樣的函式，或使用 any
+
+2. 型別由使用者決定，而不是在宣告時就寫死
+
+例如說
+
+以下的 T 是代表 Type 的意思，在使用 function 時才決定 T 的類型
+
+```js
+function hello<T>(value: T): T {
+  return value;
+}
+
+hello<string>("hello"); // T = string
+hello<number>(123); // T = number
+```
+
+泛型讓你在「不犧牲型別安全」的情況下，寫出可重用、可擴充的抽象邏輯，是 TypeScript 撐起大型專案可維護性的關鍵工具之一。
+
+那泛型可以支援多個參數
+
+```js
+function hello<T, U>(value: T, value2: U): T {
+  return value;
+}
+
+hello<string, number>("hello", 10); // T = string
+hello<number, boolean>(123, false); // T = number
+```
+
+## interface 和 function 泛型
+
+傳統函式
+
+```js
+enum XX {
+  MONDAY,
+  TUESDAY
+}
+
+interface Card<T> {
+  title: string;
+  desc: T;
+}
+
+function printCardInfo<TT>(desc: TT): Card<TT> {
+  const data: Card<TT> = {
+    title: "James",
+    desc,
+  };
+  return data;
+}
+
+printCardInfo<number>(1000)
+```
+
+箭頭函式
+
+```ts
+interface Card<T> {
+  title: string;
+  desc: T;
+}
+
+const printCardInfo = <TT>(desc: TT): Card<TT> => {
+  return {
+    title: "James",
+    desc,
+  };
+};
+
+printCardInfo<number>(1000);
+```
+
+## class 和泛型的應用
+
+```js
+interface CarProps<TT> {
+  name: TT
+}
+
+class Car<TT> implements CarProps<TT> {
+  name: TT
+  constructor(value: TT) {
+    this.name = value
+  }
+}
+
+const car = new Car<string>('Toyota')
+```
+
+## extends 條件判斷
+
+interface 可以去繼承其他 interface，就可以擁有另外一個介面的屬性和方法
+
+```js
+interface A {
+  name: string
+}
+
+interface B extends A {}
+
+const b: B = {
+  name: ''
+}
+```
+
+### 條件判斷
+
+如果左邊的型別可以被當成右邊的型別，那結果就是前面的型別，否則就是後面的型別
+
+可以把他當成是 if 判斷式
+
+```js
+type T1 = string extends string ? string : number // T1 是 string
+type T2 = number extends string ? string : number // T2 是 number
+```
+
+那如果是繼承關係也可以適用，以下就是說 如果 Student 是 Person 那 T2 的型別就會是 string
+
+```js
+interface Person {
+  name: string
+}
+
+interface Student extends Person {
+  id: number
+}
+
+type T2 = Student extends Person ? string : number
+```
+
+另外可以也不用說一定是父子關係，如果說 A 這個介面裡面所有的屬性可以滿足另外一個介面，那判斷式也可以成立
+
+```js
+interface A {
+  name: string
+}
+
+interface B {
+  name: string
+  age: number
+}
+
+type TT2 = B extends A ? string : number // string
+```
+
+### 基本泛型使用方法
+
+可以把傳進來的型別 T 拿去跟目標對象比，如果一樣就回傳 string，不一樣就回傳 number。
+
+```js
+type T1<T> = T extends 'James' ? string : number
+type res = T1<"James">
+```
+
+### union 泛型用法
+
+如果是以下這種寫法 typeScript 他會判斷整包 union 能不能都是目標字串，所以以下會是 number
+
+```js
+type TT2 = 'James' | 'James2' extends "James" ? string : number
+```
+
+但是如果 union 型別是被當作泛型去傳入的話，那就會逐一比對
+
+```js
+type TT2<T> = T extends "James" ? string : number
+type R = TT2<'James' | 'James2'> // string | number
+```
+
+### never 條件比對
+
+never 是所有類型的子類別，所以以下會回傳 string
+
+```js
+type T1 = never extends "James" ? string : number // string
+```
+
+但是如果將 never 傳入泛型，TypeScript 會將他視為空的 union，會因為裡面沒有東西可以拆，所以最後會回傳 never
+
+```js
+type N2<T> = T extends 'bruce' ? string : number
+type R3 = N2<never>
+```
+
+如果不想要做逐一比對
+
+```js
+type N2_NoDist<T> = [T] extends ['james'] ? string : number
+type R4 = N2_NoDist<never>  // 這時候會是 string（因為 never extends bruce 成立）
+
+typeR5 = N2_NoDist<"james" | "james1">
+```
+
+### extend 可以約束屬性一定要符合某一個條件
+
+比方說
+
+```js
+function doubleNumbers<T extends number[]>(arr: T): number {
+  return arr.reduce((sum, n) => sum + n * 2, 0)
+}
+
+const nums = [1, 2, 3];
+const res = doubleNumbers(nums)
+```
+
+## infer 推斷類型
+
+infer 是 TypeScript 在「條件型別」中使用的關鍵字，
+
+用來「從既有型別結構中推導出一部分型別，並暫時命名它」。
+
+關鍵詞只有三個：
+1. 只能用在條件型別
+2. 用來抽型別
+3. 抽出來的型別可以再被使用
+
+型別推導一定要長成像是這樣
+
+```js
+T extends 某個形狀(infer X) ? X : ...
+```
+
+```js
+type TT1<T> = T extends Array<infer P> ? P : never
+type R1 = TT1<number> // never
+type R2 = TT1<['string']>
+```
+
+或是
+
+```js
+type ParamType<T> =
+  T extends (param1: infer P) => any
+    ? P
+    : never
+```
+
+## keyof
+
+keyof 是把一個型別『所有可以用來當 key 的名字』，變成一個 union 型別
+
+```js
+interface Person {
+  name: string
+  sex: string
+  address: string
+}
+
+type T1 = keyof Person // 'name' | 'sex' | 'address'
+```
+
+```js
+function getValue<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key]
+}
+```
