@@ -1,0 +1,124 @@
+---
+title: "TypeScript 語法 - part5"
+description: "這一篇主要是關於 TypeScript 筆記 - utility type"
+createDate: 2025-12-22
+draft: false
+tags: ["TypeScript", "JavaScript"]
+---
+
+import { Code } from "astro:components";
+
+TypeScript 有提供一些 utility 的 function 可以讓我們使用
+
+## Partial Type
+
+<Code code={`Partial<Type>`} lang="js" inline /> 是 TypeScript 內建的泛型工具型別，可以把一個型別裡的所有屬性，全部變成可選（optional）
+
+例如以下範例
+
+```js
+interface Todo {
+  title: string;
+  description: string;
+}
+ 
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+  return { ...todo, ...fieldsToUpdate };
+}
+```
+
+## Required
+
+<Code code={`Required<Type>`} lang="js" inline /> 與 Partial Type 相反，他是可以把一個型別的所有屬性都變成是必填
+
+```js
+interface Props {
+  a?: number;
+  b?: string;
+}
+
+const obj: Props = { a: 5 };
+
+const obj2: Required<Props> = { a: 5 }; // Property 'b' is missing in type '{ a: number; }' but required in type 'Required<Props>'.
+```
+
+## <Code code={`Record<Keys, Type>`} lang="js" inline />
+
+這個 Record Type 可以用一組 key，快速產生一個「物件型別」，而且每個 key 對應的 value 型別都一樣
+
+簡單來說 <Code code={`Record<Keys, Type>`} lang="js" inline /> 是代表在一個物件裡面，keys 一定要有，那他們的值都要是 Type
+
+```js
+type CatName = "miffy" | "boris" | "mordred";
+ 
+interface CatInfo {
+  age: number;
+  breed: string;
+}
+ 
+const cats: Record<CatName, CatInfo> = {
+  miffy: { age: 10, breed: "Persian" },
+  boris: { age: 5, breed: "Maine Coon" },
+  mordred: { age: 16, breed: "British Shorthair" },
+};
+```
+
+## <Code code={`Pick<Type, Keys>`} lang="js" inline />
+
+Pick 可以從一個既有型別中，「挑選（Pick）」指定的欄位，組成一個新的型別。
+
+```js
+type User = {
+  id: number
+  name: string
+  email: string
+  password: string
+}
+
+type UserPreview = Pick<User, 'id' | 'name'>
+```
+
+## <Code code={`Omit<Type, Keys>`} lang="js" inline />
+
+Omit 可以從型別 Type 裡面，把指定的 key 拿掉，剩下全部保留
+
+```js
+type User = {
+  id: number
+  name: string
+  age: number
+}
+
+type UserWithoutId = Omit<User, 'id'>
+
+interface Todo {
+  title: string;
+  description: string;
+  completed: boolean;
+  createdAt: number;
+}
+ 
+type TodoPreview = Omit<Todo, "description">;
+ 
+const todo: TodoPreview = {
+  title: "Clean room",
+  completed: false,
+  createdAt: 1615544252770,
+};
+```
+
+## <Code code={`ReturnType<Type>`} lang="js" inline />
+
+ReturnType 可以從一個函式型別中，取出它的回傳型別
+
+```js
+function getUser() {
+  return {
+    id: 1,
+    name: 'James',
+    isAdmin: true,
+  }
+}
+
+type User = ReturnType<typeof getUser>
+```
