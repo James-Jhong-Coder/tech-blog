@@ -1,0 +1,396 @@
+---
+title: "HTML Canvas 的使用方式"
+description: "HTML Canvas 的相關筆記"
+createDate: 2025-12-23
+category: tech
+draft: false
+tags: ["TypeScript", "JavaScript", "Canvas"]
+---
+
+
+## 什麼是 Canvas
+
+Canvas 是可以讓你用程式直接在網頁上畫圖的工具
+
+他是一張空白畫布，可以在上面畫圖形、動畫、或是特效
+
+那主要是透過 JavaScript 告訴瀏覽器要畫出點、線、面
+
+所以 Canvas 很適合用來做繪圖或動畫
+
+## 怎麼初始化
+
+要初始化 Canvas 就是先拿到 canvas 的 dom，然後再取得
+
+1. 首先要在 HTML 放一個 canvas
+
+```html
+<canvas id="myCanvas"></canvas>
+```
+
+2. 然後透過 JavaScript 取得 Canvas DOM
+
+```js
+<canvas id="myCanvas"></canvas>;
+const canvas = document.getElementById("myCanvas");
+```
+
+3. 設定畫布大小
+   不建議只用 CSS 設定寬高，會造成畫面糊掉
+
+```js
+canvas.width = 300;
+canvas.height = 150;
+```
+
+4. 取得 2D 繪圖環境（初始化完成）
+
+```js
+const ctx = canvas.getContext("2d");
+```
+
+### Vue3 環境程式碼
+
+```vue
+<script setup>
+import { ref, onMounted } from "vue";
+
+const canvasRef = ref(null);
+
+onMounted(() => {
+  const canvas = canvasRef.value;
+  canvas.width = 300;
+  canvas.height = 150;
+
+  const ctx = canvas.getContext("2d");
+  ctx.fillRect(20, 20, 50, 50);
+});
+</script>
+
+<template>
+  <canvas ref="canvasRef"></canvas>
+</template>
+```
+
+## 畫線條
+
+取得 canvas context 之後就可以開始畫線條
+
+```js
+ctx.strokeStyle = "red";
+ctx.lineWidth = 4;
+
+ctx.beginPath();
+ctx.moveTo(10, 10);
+ctx.lineTo(100, 100);
+ctx.stroke();
+```
+
+以下是 context 的一些設定
+
+### lineCap
+
+lineCap 只作用在你畫線時的 起點與終點，
+
+例如兩條線交會時，端點看起來會不會「斷開」或「圓滑」，就取決於它。
+
+有三個屬性可以設定
+
+1. butt（預設）：端點直接切齊座標點，看起來比較銳利
+2. round：端點是圓弧，線條接起來會比較自然
+3. square：端點會超出一點點，視覺上比較厚實
+
+```js
+ctx.lineWidth = 10;
+
+// 預設：butt
+ctx.lineCap = "butt";
+ctx.beginPath();
+ctx.moveTo(20, 20);
+ctx.lineTo(120, 20);
+ctx.stroke();
+
+// 圓角
+ctx.lineCap = "round";
+ctx.beginPath();
+ctx.moveTo(20, 50);
+ctx.lineTo(120, 50);
+ctx.stroke();
+
+// 方角
+ctx.lineCap = "square";
+ctx.beginPath();
+ctx.moveTo(20, 80);
+ctx.lineTo(120, 80);
+ctx.stroke();
+```
+
+### lineJoin
+
+lineJoin 用來決定「線與線轉彎時，角落要怎麼接」。
+
+1. 當你畫折線、多邊形（例如正方形、箭頭），每個「拐彎的角」要尖、要圓、還是要被削平，都是 lineJoin 在決定。
+2. Canvas 有三種轉角樣式
+   - miter（預設）：尖角，延伸交會（角度太小會變很尖）
+   - round：圓角，最自然、最不容易出現鋸齒
+   - bevel：斜切角，把尖角削掉一塊
+
+```js
+// 1) butt
+ctx.lineCap = "butt";
+ctx.beginPath();
+ctx.moveTo(x1, h * 0.28);
+ctx.lineTo(x2, h * 0.28);
+ctx.stroke();
+
+// 2) round
+ctx.lineCap = "round";
+ctx.beginPath();
+ctx.moveTo(x1, h * 0.5);
+ctx.lineTo(x2, h * 0.5);
+ctx.stroke();
+
+// 3) square
+ctx.lineCap = "square";
+ctx.beginPath();
+ctx.moveTo(x1, h * 0.72);
+ctx.lineTo(x2, h * 0.72);
+ctx.stroke();
+```
+
+### shadow
+
+canvas 畫線段時可以加上陰影
+
+基本上就是這幾個屬性可以設定
+
+就跟 CSS 一樣可以設定顏色、blur 的程度、陰影 x y 軸偏移量
+
+```js
+ctx.shadowColor = "rgba(0,0,0,0.6)";
+ctx.shadowBlur = 12;
+ctx.shadowOffsetX = 0;
+ctx.shadowOffsetY = 6;
+```
+
+```vue
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+
+const canvas = ref<HTMLCanvasElement | null>(null);
+
+onMounted(() => {
+  const el = canvas.value;
+  if (!el) return;
+
+  const ctx = el.getContext("2d");
+  if (!ctx) return;
+
+  // 設定畫布大小（避免預設 300x150）
+  el.width = 400;
+  el.height = 200;
+
+  // 陰影設定
+  ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 5;
+
+  // 線條設定
+  ctx.strokeStyle = "red";
+  ctx.lineWidth = 12;
+  ctx.lineCap = "round";
+
+  // 畫一條線
+  ctx.beginPath();
+  ctx.moveTo(50, 100);
+  ctx.lineTo(350, 100);
+  ctx.stroke();
+});
+</script>
+
+<template>
+  <canvas ref="canvas" />
+</template>
+
+<style scoped>
+canvas {
+  background: white;
+}
+</style>
+```
+
+## 畫矩形
+
+畫 rect 參數有四個
+
+1. x
+2. y
+3. 寬度
+4. 高度
+
+然後要在用 ctx.stroke(); 去描邊
+
+```js
+  const canvas = canvasRef.value!;
+  const ctx = canvas.getContext("2d")!;
+
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#333";
+
+  ctx.beginPath();
+  ctx.rect(
+    50,   // x
+    50,   // y
+    200,  // width
+    120   // height
+  );
+  ctx.stroke();
+```
+
+## 畫圓形
+
+這邊是用 arc 去畫，然後他是從 0 畫到 360 度
+
+```js
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+
+const canvasRef = ref<HTMLCanvasElement | null>(null);
+
+onMounted(() => {
+  const canvas = canvasRef.value!;
+  const ctx = canvas.getContext("2d")!;
+
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#333";
+
+  ctx.beginPath();
+  ctx.arc(
+    150,               // 圓心 x
+    100,               // 圓心 y
+    60,                // 半徑
+    0,                 // 起始角度
+    Math.PI * 2        // 結束角度（整圈）
+  );
+  ctx.stroke();
+});
+</script>
+
+<template>
+  <canvas ref="canvasRef" width="300" height="200" />
+</template>
+```
+
+## 畫出文字
+
+- ctx.textAlign = "left"; 有三個屬性
+
+  - left 文字從 x 往右畫
+  - center 文字中心在 x
+  - right 文字結尾在 x
+
+- ctx.textBaseline 這是 y 座標要對齊文字的哪一個「基準線」設定
+  - alphabetic
+  - top
+  - middle
+  - bottom
+  - hanging
+  - ideographic
+
+```vue
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+
+const canvasRef = ref<HTMLCanvasElement | null>(null);
+
+onMounted(() => {
+  const canvas = canvasRef.value!;
+  const ctx = canvas.getContext("2d")!;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#333";
+  ctx.font = "24px Arial";
+  ctx.textAlign = "left"; // left | center | right
+  ctx.textBaseline = "middle"; // top | middle | bottom
+
+  ctx.fillText("Hello Canvas", canvas.width / 2, canvas.height / 2);
+});
+</script>
+
+<template>
+  <canvas ref="canvasRef" width="300" height="200" class="x" />
+</template>
+
+<style scoped>
+.x {
+  background: white;
+}
+</style>
+```
+
+文字也可以加上陰影
+
+```js
+ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+ctx.shadowBlur = 10;
+ctx.shadowOffsetX = 4;
+ctx.shadowOffsetY = 4;
+```
+
+
+## 在 canvas 上繪製圖片
+
+在 canvas 上繪製圖片可以用 drawImage 這個方法
+
+根據給定的參數可以做到是否縮放或是裁切來源圖片
+
+### drawImage(img, dx, dy)
+
+他的用途是直接把整張圖片畫到 canvas 指定位置，不做任何縮放或裁切。
+
+參數說明
+* img：Image / HTMLImageElement / Canvas / Video
+* dx：目標 X 座標（canvas）
+* dy：目標 Y 座標（canvas）
+
+行為特性
+* 使用圖片的「原始寬高」
+* 左上角對齊 (dx, dy)
+* 最單純、效能最好
+
+![網頁渲染步驟](/images/canvas-draw-image-1.png)
+
+```js
+ctx.drawImage(img, 50, 30);
+```
+
+### drawImage(img, dx, dy, dw, dh)
+
+用途是把整張圖片畫到 canvas，並指定目標寬高（縮放）。
+
+參數說明
+* dw：目標寬度（destination width）
+* dh：目標高度（destination height）
+
+行為特性
+* 來源仍是「整張圖片」
+* 會依 dw / dh 進行縮放
+* 若比例不同，圖片會被拉伸或壓縮
+
+```js
+ctx.drawImage(img, 50, 30, 200, 100);
+```
+
+### drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh)
+
+從圖片「裁切一塊區域」，再畫到 canvas 指定位置與大小。
+
+📌 來源圖片（source）
+* sx, sy：從圖片哪個座標開始裁
+* sw, sh：裁切寬高
+
+📌 目標畫布（destination）
+* dx, dy：畫到 canvas 的位置
+* dw, dh：畫到 canvas 的大小（可縮放）

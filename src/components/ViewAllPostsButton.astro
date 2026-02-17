@@ -1,10 +1,16 @@
 ---
 import IconArrowRight from "@/assets/icons/icon_arrow_right.svg";
+
+interface Props {
+  href?: string;
+  label?: string;
+}
+const { href = "/posts", label = "查看全部文章" } = Astro.props as Props;
 ---
 
-<a href="/posts" class="btn">
-  <span>查看全部文章</span>
-  <IconArrowRight class="icon ml-2" />
+<a href={href} class="btn">
+  <span>{label}</span>
+  <IconArrowRight class="icon ml-1.5" />
 </a>
 
 <style>
@@ -12,21 +18,21 @@ import IconArrowRight from "@/assets/icons/icon_arrow_right.svg";
 
   .btn {
     @apply flex items-center;
-    @apply leading-none cursor-pointer;
-    @apply text-white;
-    @apply bg-gray-650 rounded-xl py-2 px-3;
-    transition: all 0.3s ease;
+    @apply leading-none cursor-pointer text-sm;
+    @apply rounded-lg py-1.5 px-3;
+    color: var(--color-accent);
+    border: 1px solid var(--color-border-light);
+    transition: all 0.2s ease;
   }
   .btn:hover {
-    @apply bg-gray-650/90;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(3, 2, 19, 0.25);
+    background-color: rgba(56, 189, 248, 0.08);
+    border-color: var(--color-accent);
   }
   .btn .icon {
-    @apply w-5 h-5;
-    transition: all 0.3s ease;
+    @apply w-4 h-4;
+    transition: transform 0.2s ease;
   }
   .btn:hover .icon {
-    transform: translateX(4px);
+    transform: translateX(3px);
   }
 </style>

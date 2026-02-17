@@ -1,27 +1,83 @@
 ---
 import ViewAllPostsButton from "@/components/ViewAllPostsButton.astro";
 import Layout from "@/layouts/Layout.astro";
-import IconClock from "@/assets/icons/icon_clock.svg";
+import IconCode from "@/assets/icons/icon_code.svg";
+import IconCoffee from "@/assets/icons/icon_coffee.svg";
 import PostList from "@/components/PostList.astro";
 ---
 
 <Layout>
-  <div class="py-12 flex flex-col">
-    <div class="flex flex-col items-center">
-      <span class="text-4xl text-gray-400">技術部落格</span>
-      <span class="mt-4 text-base text-gray-430"
-        >分享前端、後端開發經驗，探索最新技術趨勢</span
-      >
+  <div class="flex flex-col">
+    <!-- Hero Section -->
+    <div class="hero">
+      <span class="hero-greeting">Hey, I'm James</span>
+      <h1 class="hero-title">Software Engineer & Writer</h1>
+      <p class="hero-description">
+        在這裡分享我的前端開發筆記、技術探索，以及生活中的大小事。
+      </p>
     </div>
-    <div class="flex items-center mt-16">
-      <div class="flex items-center">
-        <IconClock />
-        <span class="ml-2 text-2xl">最新文章</span>
+
+    <!-- 技術文章 -->
+    <section class="mt-16">
+      <div class="section-header">
+        <div class="section-title-group">
+          <IconCode class="w-5 h-5 section-icon" />
+          <h2 class="section-title">技術文章</h2>
+        </div>
+        <ViewAllPostsButton href="/categories/tech" label="查看全部" />
       </div>
-      <div class="ml-auto">
-        <ViewAllPostsButton />
+      <PostList category="tech" limit={5} />
+    </section>
+
+    <!-- 生活紀錄 -->
+    <section class="mt-16">
+      <div class="section-header">
+        <div class="section-title-group">
+          <IconCoffee class="w-5 h-5 section-icon" />
+          <h2 class="section-title">生活紀錄</h2>
+        </div>
+        <ViewAllPostsButton href="/categories/life" label="查看全部" />
       </div>
-    </div>
-    <PostList class="mt-3" />
+      <PostList category="life" limit={5} />
+    </section>
   </div>
 </Layout>
+
+<style>
+  @reference "../styles/global.css";
+
+  .hero {
+    @apply flex flex-col;
+    @apply pb-12;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .hero-greeting {
+    color: var(--color-accent);
+    @apply text-base font-medium;
+  }
+  .hero-title {
+    @apply text-4xl font-bold mt-2;
+    color: var(--color-text-primary);
+  }
+  .hero-description {
+    @apply text-lg mt-4 max-w-xl;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .section-header {
+    @apply flex items-center justify-between;
+    @apply pb-4;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .section-title-group {
+    @apply flex items-center;
+  }
+  .section-icon {
+    color: var(--color-accent);
+  }
+  .section-title {
+    @apply ml-2 text-xl font-semibold;
+    color: var(--color-text-primary);
+  }
+</style>

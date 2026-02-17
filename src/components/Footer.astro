@@ -5,7 +5,7 @@
 <footer class="footer-box">
   <div class="line"></div>
   <div class="content p-4">
-    <span>© 2025 James 部落格. All rights reserved.</span>
+    <span>&copy; 2025 James Blog. All rights reserved.</span>
   </div>
 </footer>
 
@@ -16,12 +16,13 @@
   }
   .line {
     @apply h-px w-full;
-    @apply bg-gray-100;
+    background-color: var(--color-border);
   }
   .content {
-    @apply bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30;
-    @apply text-gray-350 text-xs;
+    @apply text-xs;
     @apply px-3;
     @apply max-w-screen-lg w-full mx-auto;
+    color: var(--color-text-muted);
+    background-color: var(--color-bg-primary);
   }
 </style>

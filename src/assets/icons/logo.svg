@@ -1,12 +1,12 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Background rounded square with dark color like the image -->
-    <rect x="2" y="2" width="28" height="28" rx="8" ry="8" fill="#1a1a1a" />
+    <!-- Background rounded square with accent-tinted dark -->
+    <rect x="2" y="2" width="28" height="28" rx="8" ry="8" fill="#1e3a4f" />
 
-    <!-- Letter "J" in clean white style -->
-    <path d="M20 8V18C20 20.2091 18.2091 22 16 22C13.7909 22 12 20.2091 12 18V16" stroke="white"
+    <!-- Letter "J" in accent color -->
+    <path d="M20 8V18C20 20.2091 18.2091 22 16 22C13.7909 22 12 20.2091 12 18V16" stroke="#38bdf8"
         stroke-width="2.5"
         stroke-linecap="round" stroke-linejoin="round" fill="none" />
 
     <!-- Top serif/bar for J -->
-    <line x1="16" y1="8" x2="20" y2="8" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="16" y1="8" x2="20" y2="8" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" />
 </svg>

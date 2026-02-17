@@ -1,0 +1,115 @@
+---
+import Logo from "@/assets/icons/logo.svg";
+import IconHome from "@/assets/icons/icon_home.svg";
+import IconCode from "@/assets/icons/icon_code.svg";
+import IconCoffee from "@/assets/icons/icon_coffee.svg";
+import IconTag from "@/assets/icons/icon_tag.svg";
+import IconPerson from "@/assets/icons/icon_person.svg";
+
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { href: "/", label: "首頁", icon: IconHome },
+  { href: "/categories/tech", label: "技術文章", icon: IconCode },
+  { href: "/categories/life", label: "生活分享", icon: IconCoffee },
+  { href: "/tags", label: "標籤", icon: IconTag },
+  { href: "/about", label: "關於我", icon: IconPerson },
+];
+
+function isActive(href: string) {
+  if (href === "/") return currentPath === "/";
+  return currentPath.startsWith(href);
+}
+---
+
+<aside class="sidebar">
+  <div class="sidebar-inner">
+    <div class="sidebar-header">
+      <a href="/" class="logo-link">
+        <Logo class="logo-icon" />
+      </a>
+      <span class="site-title">James Blog</span>
+    </div>
+
+    <div class="sidebar-intro">
+      <p>Software Engineer，分享前端開發筆記與日常生活。</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      {navItems.map((item) => {
+        const Icon = item.icon;
+        return (
+          <a
+            href={item.href}
+            class={`nav-link ${isActive(item.href) ? "is-active" : ""}`}
+          >
+            <Icon class="nav-icon" />
+            <span>{item.label}</span>
+          </a>
+        );
+      })}
+    </nav>
+
+    <div class="sidebar-footer">
+      <span>&copy; 2025 James</span>
+    </div>
+  </div>
+</aside>
+
+<style>
+  @reference "../styles/global.css";
+
+  .sidebar {
+    @apply sticky top-0 h-screen;
+    @apply flex flex-col;
+    @apply py-8 px-6;
+    border-right: 1px solid var(--color-border);
+  }
+  .sidebar-inner {
+    @apply flex flex-col h-full;
+  }
+
+  .sidebar-header {
+    @apply flex items-center gap-3;
+  }
+  .logo-link {
+    @apply flex items-center shrink-0;
+  }
+  .logo-icon {
+    @apply w-8 h-8;
+  }
+  .site-title {
+    @apply text-lg font-semibold;
+    color: var(--color-text-primary);
+  }
+
+  .sidebar-intro {
+    @apply mt-6 text-sm leading-relaxed;
+    color: var(--color-text-secondary);
+  }
+
+  .sidebar-nav {
+    @apply mt-8 flex flex-col gap-1;
+  }
+  .nav-link {
+    @apply flex items-center gap-2.5 py-2 px-3 rounded-lg text-sm;
+    color: var(--color-text-secondary);
+    transition: all 0.15s;
+  }
+  .nav-link:hover {
+    color: var(--color-text-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  .nav-link.is-active {
+    color: var(--color-accent);
+    background-color: rgba(56, 189, 248, 0.08);
+  }
+  .nav-icon {
+    @apply w-4 h-4 shrink-0;
+  }
+
+  .sidebar-footer {
+    @apply mt-auto pt-6 text-xs;
+    color: var(--color-text-muted);
+  }
+</style>

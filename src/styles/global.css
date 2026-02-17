@@ -1,25 +1,49 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@theme {
-  --color-gray-100: #e5e7eb;
-  --color-gray-150: #f1f2f4;
-  --color-gray-350: #727282;
-  --color-gray-400: #0a0a0a;
-  --color-gray-410: #f4f4f4;
-  --color-gray-430: #717182;
-  --color-gray-460: #e5e5e5;
-  --color-gray-480: #707080;
-  --color-gray-600: #0b0b1a;
-  --color-gray-650: #030213;
-  --color-gray-700: #354156;
-
-  --color-yellow-300: #f5bc1e;
+body {
+  @apply bg-bg-primary;
 }
+
+@theme {
+  /* 深色主題配色 */
+  --color-bg-primary: #16161a;
+  --color-bg-secondary: #1c1c20;
+  --color-bg-tertiary: #232329;
+  --color-bg-hover: #2a2a32;
+
+  --color-text-primary: #ececec;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+
+  --color-accent: #38bdf8;
+  --color-accent-hover: #7dd3fc;
+  --color-accent-pink: #f472b6;
+
+  --color-border: #2e2e35;
+  --color-border-light: #3a3a42;
+
+  /* 保留舊的灰色變數供元件使用 */
+  --color-gray-100: #2e2e35;
+  --color-gray-150: #232329;
+  --color-gray-350: #94a3b8;
+  --color-gray-400: #ececec;
+  --color-gray-410: #2a2a32;
+  --color-gray-430: #94a3b8;
+  --color-gray-460: #2e2e35;
+  --color-gray-480: #94a3b8;
+  --color-gray-600: #38bdf8;
+  --color-gray-650: #16161a;
+  --color-gray-700: #94a3b8;
+
+  --color-yellow-300: #38bdf8;
+}
+
 @layer components {
-  /* 僅針對 prose 內的 inline code */
   .prose code {
-    @apply px-2 py-1 rounded-md bg-gray-100 text-rose-600 font-medium;
+    @apply px-2 py-1 rounded-md font-medium;
+    background-color: #2a2a32;
+    color: #7dd3fc;
   }
 
   .prose pre code {

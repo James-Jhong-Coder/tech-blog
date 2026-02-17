@@ -1,0 +1,76 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings?: Heading[];
+}
+
+const { headings = [] } = Astro.props as Props;
+const filteredHeadings = headings.filter((h) => h.depth <= 3);
+console.log("headings =", headings);
+---
+
+{
+  filteredHeadings.length > 0 && (
+    <aside class="toc">
+      <div class="toc-inner">
+        <h3 class="toc-title">Table of Contents</h3>
+        <nav class="toc-nav">
+          {filteredHeadings.map((heading) => (
+            <a
+              href={`#${heading.slug}`}
+              class={`toc-link depth-${heading.depth}`}
+            >
+              {heading.text}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </aside>
+  )
+}
+
+<style>
+  @reference "../styles/global.css";
+
+  .toc {
+    @apply sticky top-8 h-fit;
+    @apply py-8;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .toc-inner {
+    @apply pl-6;
+    border-left: 1px solid var(--color-border);
+  }
+  .toc-title {
+    @apply text-sm font-semibold mb-4;
+    color: var(--color-text-primary);
+  }
+  .toc-nav {
+    @apply flex flex-col gap-2;
+  }
+  .toc-link {
+    @apply text-sm leading-snug;
+    color: var(--color-text-muted);
+    transition: color 0.15s;
+  }
+  .toc-link:hover {
+    color: var(--color-accent);
+  }
+  .toc-link.depth-2 {
+    @apply pl-0;
+  }
+  .toc-link.depth-3 {
+    @apply pl-3;
+    @apply text-xs;
+  }
+</style>

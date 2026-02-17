@@ -3,10 +3,12 @@ import IconHome from "@/assets/icons/icon_home.svg";
 import IconPostList from "@/assets/icons/icon_post_list.svg";
 import IconPerson from "@/assets/icons/icon_person.svg";
 import IconTags from "@/assets/icons/icon_tag.svg";
+import IconCode from "@/assets/icons/icon_code.svg";
+import IconCoffee from "@/assets/icons/icon_coffee.svg";
 import IconBreadcrumbArrow from "@/assets/icons/icon_breadcrumb_arrow.svg";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
-type IconName = "home" | "post" | "person" | "postList" | "tags";
+type IconName = "home" | "post" | "person" | "postList" | "tags" | "tech" | "life";
 
 interface Crumb {
   label: string;
@@ -27,6 +29,8 @@ const iconMapping: Record<IconName, AstroComponentFactory> = {
   post: IconPostList,
   person: IconPerson,
   tags: IconTags,
+  tech: IconCode,
+  life: IconCoffee,
 };
 ---
 
@@ -36,7 +40,7 @@ const iconMapping: Record<IconName, AstroComponentFactory> = {
       items.map((item, index) => {
         return (
           <div
-            class={`flex items-center ${index < items.length - 1 ? "text-muted cursor-pointer" : ""}`}
+            class={`flex items-center ${index < items.length - 1 ? "text-muted" : "text-white"}`}
           >
             <a
               class={`breadcrumb-list-item ${index < items.length - 1 ? "muted-item" : ""}`}
@@ -94,18 +98,23 @@ const iconMapping: Record<IconName, AstroComponentFactory> = {
     /* transition: transform 0.2s; */
   }
   .breadcrumb .muted-item:hover {
-    @apply text-gray-900 font-medium;
+    color: var(--color-text-primary);
+    @apply font-medium;
   }
   .breadcrumb .muted-item:hover .icon {
     /* transform: scale(1.2); */
   }
   .text-muted {
-    @apply text-gray-480;
+    color: var(--color-text-muted);
   }
   .text-emphasis {
-    @apply text-gray-900 font-medium;
+    color: var(--color-text-primary);
+    @apply font-medium;
   }
   .text-separator {
-    @apply text-gray-400;
+    color: var(--color-text-muted);
+  }
+  .muted-item:hover {
+    color: var(--color-accent);
   }
 </style>
