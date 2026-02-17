@@ -4,8 +4,10 @@ import { getCollection } from "astro:content";
 interface Props {
   class?: string;
   tag?: string;
+  category?: string;
+  limit?: number;
 }
-const { class: className, tag } = Astro.props as Props;
+const { class: className, tag, category, limit } = Astro.props as Props;
 
 const posts = await getCollection("posts", ({ data }) => !data.draft);
 
@@ -16,16 +18,19 @@ let filteredPosts = (() => {
       post.data.tags.some((postTag) => postTag === tag)
     );
   }
-  return result.sort((a, b) => new Date(b.data.createDate).getTime() - new Date(a.data.createDate).getTime())
+  if (category) {
+    result = result.filter((post) => post.data.category === category);
+  }
+  const sorted = result.sort((a, b) => new Date(b.data.createDate).getTime() - new Date(a.data.createDate).getTime());
+  return limit ? sorted.slice(0, limit) : sorted;
 })();
 ---
 
 <div class={`post-list ${className ?? ""}`}>
   {
-    filteredPosts.map((post, index) => (
-      <a href={`/posts/${post.id}`} class={index > 0 ? "mt-6" : ""}>
+    filteredPosts.map((post) => (
+      <a href={`/posts/${post.id}`}>
         <PostListItem
-          id={post.id}
           title={post.data.title}
           description={post.data.description}
           tags={post.data.tags}

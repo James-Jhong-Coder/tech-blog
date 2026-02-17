@@ -1,25 +1,35 @@
 ---
-import Header from '@components/Header.astro';
-import Footer from '@components/Footer.astro';
-import '@/styles/global.css';
+import Sidebar from "@components/Sidebar.astro";
+import "@/styles/global.css";
+
+interface Props {
+  rightSidebar?: boolean;
+}
+const { rightSidebar = false } = Astro.props as Props;
 ---
 
-<html lang='en'>
+<html lang="en">
   <head>
-    <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width' />
-    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
-    <meta name='generator' content={Astro.generator} />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
     <title>James blog</title>
   </head>
   <body>
-    <section class='page'>
-      <Header class='header' />
-      <main class='content'>
+    <div class={`page ${rightSidebar ? "has-right-sidebar" : ""}`}>
+      <Sidebar />
+      <main class="main-content">
         <slot />
       </main>
-      <Footer />
-    </section>
+      {
+        rightSidebar && (
+          <div class="right-sidebar">
+            <slot name="toc" />
+          </div>
+        )
+      }
+    </div>
   </body>
 </html>
 
@@ -33,24 +43,27 @@ import '@/styles/global.css';
 </style>
 
 <style>
-  @reference "../styles/global.css";
+  @reference "#app.css";
 
   .page {
-    @apply h-full relative;
-    @apply grid;
-    grid-template-rows: 1fr max-content;
+    @apply min-h-screen;
+    @apply mx-auto;
+    @apply bg-bg-primary text-bg-primary;
+    max-width: 1460px;
+    display: grid;
+    grid-template-columns: 240px 1fr 240px;
+    /* color: var(--color-text-primary); */
   }
-  .header {
-    @apply fixed top-0 left-0 right-0 z-40 h-16;
-    backdrop-filter: blur(8px); /* 或 Tailwind 的 backdrop-blur-sm/md/lg */
-    background-color: rgba(255, 255, 255, 0.7); /* 半透明底色，常用白色/黑色 */
+  .page.has-right-sidebar {
+    grid-template-columns: 240px 1fr 220px;
   }
 
-  /* 留出 header 的高度，避免內容被擋住 */
-  .content {
-    @apply pt-16 pb-8;
+  .main-content {
+    @apply py-10 px-6;
     @apply flex flex-col;
-    @apply px-3;
-    @apply max-w-screen-lg w-full mx-auto;
+  }
+
+  .right-sidebar {
+    @apply py-8;
   }
 </style>

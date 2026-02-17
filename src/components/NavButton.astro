@@ -20,11 +20,21 @@ const {
     @reference "../styles/global.css";
     .nav-btn {
         @apply inline-flex items-center cursor-pointer leading-none text-sm;
-        @apply hover:bg-gray-150 py-2 px-2.5 rounded-md;
+        @apply py-2 px-2.5 rounded-md;
+        color: var(--color-text-secondary);
+        transition: all 0.2s;
+    }
+    .nav-btn:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: var(--color-text-primary);
     }
 
     .is-active {
-        @apply bg-gray-600 text-white;
-        @apply hover:bg-gray-600;
+        color: var(--color-accent);
+        background-color: rgba(56, 189, 248, 0.1);
+    }
+    .is-active:hover {
+        background-color: rgba(56, 189, 248, 0.15);
+        color: var(--color-accent);
     }
 </style>

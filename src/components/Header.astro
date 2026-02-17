@@ -3,9 +3,10 @@ const { class: className, ...rest } = Astro.props;
 import Logo from "@/assets/icons/logo.svg";
 import NavButton from "@components/NavButton.astro";
 import IconHome from "@/assets/icons/icon_home.svg";
-import IconPostList from "@/assets/icons/icon_post_list.svg";
 import IconPerson from "@/assets/icons/icon_person.svg";
 import IconTag from "@/assets/icons/icon_tag.svg";
+import IconCode from "@/assets/icons/icon_code.svg";
+import IconCoffee from "@/assets/icons/icon_coffee.svg";
 const currentPath = Astro.url.pathname;
 ---
 
@@ -17,13 +18,17 @@ const currentPath = Astro.url.pathname;
       </a>
     </div>
     <div class="ml-auto flex items-center">
-      <NavButton isActive={currentPath === "/"}>
-        <IconHome class="mr-1 w-4 h-4 shrink-0" href="/" />
+      <NavButton href="/" isActive={currentPath === "/"}>
+        <IconHome class="mr-1 w-4 h-4 shrink-0" />
         <span>首頁</span>
       </NavButton>
-      <NavButton class="ml-2" href="/posts" isActive={currentPath === "/posts"}>
-        <IconPostList class="mr-1 w-4 h-4" />
-        <span>文章列表</span>
+      <NavButton class="ml-2" href="/categories/tech" isActive={currentPath.startsWith("/categories/tech")}>
+        <IconCode class="mr-1 w-4 h-4" />
+        <span>技術</span>
+      </NavButton>
+      <NavButton class="ml-2" href="/categories/life" isActive={currentPath.startsWith("/categories/life")}>
+        <IconCoffee class="mr-1 w-4 h-4" />
+        <span>生活</span>
       </NavButton>
       <NavButton class="ml-2" href="/tags" isActive={currentPath === "/tags"}>
         <IconTag class="mr-1 w-4 h-4" />
@@ -60,6 +65,6 @@ const currentPath = Astro.url.pathname;
   }
   .bottom-line {
     @apply h-px w-full;
-    @apply bg-gray-100;
+    background-color: var(--color-border);
   }
 </style>

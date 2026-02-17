@@ -13,6 +13,7 @@ const posts = defineCollection({
     createDate: z.coerce.date(),
     tags: z.array(z.string()),
     coverImage: z.string().optional(),
+    category: z.enum(["tech", "life"]).default("tech"),
     draft: z.boolean().default(false),
   }),
 });

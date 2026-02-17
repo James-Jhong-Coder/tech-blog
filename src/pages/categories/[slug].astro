@@ -1,0 +1,31 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PostList from "@/components/PostList.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+
+const categoryMap: Record<string, { label: string; iconName: "tech" | "life" }> = {
+  tech: { label: "技術文章", iconName: "tech" },
+  life: { label: "生活分享", iconName: "life" },
+};
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: "tech" } },
+    { params: { slug: "life" } },
+  ];
+}
+
+const { slug } = Astro.params;
+const category = categoryMap[slug];
+---
+
+<Layout>
+  <Breadcrumb
+    class="mt-6"
+    items={[
+      { label: "首頁", href: "/", iconName: "home" },
+      { label: category.label, href: "", iconName: category.iconName },
+    ]}
+  />
+  <PostList class="mt-10" category={slug} />
+</Layout>

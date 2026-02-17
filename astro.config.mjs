@@ -13,6 +13,10 @@ export default defineConfig({
   },
 
   integrations: [mdx()],
-  markdown: {},
+  markdown: {
+    shikiConfig: {
+      theme: "github-dark",
+    },
+  },
   trailingSlash: "never",
 });

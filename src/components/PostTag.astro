@@ -13,14 +13,15 @@ const { title, class: className } = Astro.props as Props;
 <style>
   @reference "../styles/global.css";
   .post-tag {
-    @apply leading-none text-sm;
-    @apply border border-black/20;
-    @apply px-3 py-1 rounded-lg;
+    @apply leading-none text-xs;
+    @apply px-2 py-0.5 rounded-full;
     @apply flex items-center;
+    background-color: rgba(56, 189, 248, 0.1);
+    color: var(--color-accent);
+    transition: all 0.2s;
   }
   .post-tag:hover {
-    @apply border-black/70;
-    @apply bg-black;
-    @apply text-white;
+    background-color: rgba(56, 189, 248, 0.2);
+    color: var(--color-accent-hover);
   }
 </style>
