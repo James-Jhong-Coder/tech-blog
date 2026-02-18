@@ -58,12 +58,13 @@ const { rightSidebar = false } = Astro.props as Props;
     display: grid;
     /* Mobile: single column */
     grid-template-columns: 1fr;
-    /* grid-template-rows: min-content 1fr; */
+    grid-template-rows: min-content 1fr;
   }
 
   @media (min-width: 768px) {
     .page {
       grid-template-columns: 240px 1fr;
+      grid-template-rows: min-content 1fr;
     }
     .page.has-right-sidebar {
       grid-template-columns: 240px 1fr 220px;
