@@ -1,0 +1,109 @@
+---
+import Logo from "@/assets/icons/logo.svg";
+---
+
+<header class="mobile-header">
+  <a href="/" class="mobile-header-logo">
+    <Logo class="w-7 h-7" />
+    <span class="site-title">James Blog</span>
+  </a>
+  <div class="mobile-header-actions">
+    <button
+      id="mobile-search-btn"
+      class="icon-btn"
+      type="button"
+      aria-label="Search"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+    <button
+      id="menu-toggle"
+      class="hamburger-btn"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  @reference "../styles/global.css";
+
+  .mobile-header {
+    @apply flex items-center justify-between;
+    @apply sticky top-0;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg-primary);
+    z-index: 40;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-header {
+      display: none;
+    }
+  }
+
+  .mobile-header-logo {
+    @apply flex items-center no-underline;
+  }
+
+  .site-title {
+    @apply ml-2 text-base font-semibold;
+    color: var(--color-text-primary);
+  }
+
+  .mobile-header-actions {
+    @apply flex items-center;
+    gap: 4px;
+  }
+
+  .icon-btn {
+    @apply flex items-center justify-center;
+    @apply rounded-lg cursor-pointer;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+  }
+
+  .icon-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .hamburger-btn {
+    @apply flex flex-col justify-center items-center;
+    @apply rounded-lg cursor-pointer;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    gap: 5px;
+    background: none;
+    border: none;
+  }
+
+  .hamburger-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-text-primary);
+    border-radius: 1px;
+  }
+</style>
+
+<script>
+  document.getElementById("mobile-search-btn")?.addEventListener("click", () => {
+    document.dispatchEvent(new CustomEvent("open-search"));
+  });
+</script>

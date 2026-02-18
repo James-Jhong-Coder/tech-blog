@@ -7,7 +7,7 @@ const { class: className = '' } = Astro.props as Props;
 ---
 
 <ProfileCard class={`${className}`}>
-  <div class='section text-white'>
+  <div class='section text-text-primary'>
     <div class='avatar'>
       <img
         src='https://shoplineimg.com/media/663c8aebb455500019558155/original.webp?source_format=jpg'
@@ -18,7 +18,7 @@ const { class: className = '' } = Astro.props as Props;
     </div>
     <!-- <div class='flex flex-col flex-1'> -->
     <div class='self-introduction'>
-      <span class='text-md text-amber-300'>Hello 你好</span>
+      <span class='text-md text-accent'>Hello 你好</span>
       <span class='mt-3 text-5xl'>我是 James</span>
       <span class='mt-6 leading-7'
         >我目前擔任資深前端工程師，目前資歷有五年的時間，熟悉 Vue
@@ -32,7 +32,7 @@ const { class: className = '' } = Astro.props as Props;
   @reference "@/styles/global.css";
   .section {
     @apply flex flex-col;
-    @apply text-white;
+    @apply text-text-primary;
   }
   .section .avatar {
     @apply shrink-0 flex-1;

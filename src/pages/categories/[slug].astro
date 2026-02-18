@@ -21,11 +21,10 @@ const category = categoryMap[slug];
 
 <Layout>
   <Breadcrumb
-    class="mt-6"
     items={[
       { label: "首頁", href: "/", iconName: "home" },
       { label: category.label, href: "", iconName: category.iconName },
     ]}
   />
-  <PostList class="mt-10" category={slug} />
+  <PostList category={slug} />
 </Layout>

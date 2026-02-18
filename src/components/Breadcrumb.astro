@@ -40,7 +40,7 @@ const iconMapping: Record<IconName, AstroComponentFactory> = {
       items.map((item, index) => {
         return (
           <div
-            class={`flex items-center ${index < items.length - 1 ? "text-muted" : "text-white"}`}
+            class={`flex items-center ${index < items.length - 1 ? "text-muted" : "text-emphasis"}`}
           >
             <a
               class={`breadcrumb-list-item ${index < items.length - 1 ? "muted-item" : ""}`}

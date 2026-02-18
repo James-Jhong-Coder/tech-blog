@@ -21,12 +21,11 @@ const posts = await getCollection("posts", ({ data }) =>
 
 <Layout>
   <Breadcrumb
-    class="mt-6 mb-10"
     items={[
       { label: "首頁", href: "/", iconName: "home" },
       { label: "標籤列表", href: "/tags", iconName: "tags" },
       { label: `${slug} 文章列表`, href: "", iconName: "post" },
     ]}
   />
-  <PostList class="mt-10" tag={slug} />
+  <PostList tag={slug} />
 </Layout>

@@ -10,20 +10,33 @@ interface Props {
 const { class: className, tag, category, limit } = Astro.props as Props;
 
 const posts = await getCollection("posts", ({ data }) => !data.draft);
-
+// console.log('posts = ', posts)
 let filteredPosts = (() => {
+  console.log("tag = ", tag);
+  console.log("category = ", category);
+
   let result = posts;
   if (tag) {
+    console.log("enter-1");
     result = result.filter((post) =>
-      post.data.tags.some((postTag) => postTag === tag)
+      post.data.tags.some((postTag) => postTag === tag),
     );
   }
   if (category) {
-    result = result.filter((post) => post.data.category === category);
+    console.log("enter-2");
+    result = result.filter((post) => {
+      console.log("post.data.category = ", post.data.title, post.data.category);
+      return post.data.category === category;
+    });
   }
-  const sorted = result.sort((a, b) => new Date(b.data.createDate).getTime() - new Date(a.data.createDate).getTime());
+  const sorted = result.sort(
+    (a, b) =>
+      new Date(b.data.createDate).getTime() -
+      new Date(a.data.createDate).getTime(),
+  );
   return limit ? sorted.slice(0, limit) : sorted;
 })();
+// console.log("filteredPosts = ", filteredPosts);
 ---
 
 <div class={`post-list ${className ?? ""}`}>
