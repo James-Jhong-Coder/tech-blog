@@ -10,13 +10,13 @@ const { class: className = "" } = Astro.props as Props;
 
 <ProfileCard class={`${className}`}>
     <div class="flex items-center mb-6">
-        <IconEducation class="w-6 h-6 text-amber-300" />
+        <IconEducation class="w-6 h-6 text-accent" />
         <span class="flex text-2xl ml-2">教育程度</span>
     </div>
     <ProfileDetailCard>
-        <span class="text-white">台北科技大學</span>
-        <span class="text-amber-400">資訊工程學系</span>
-        <span class="text-slate-400">2009 ~ 2012</span>
+        <span class="text-text-primary">台北科技大學</span>
+        <span class="text-accent">資訊工程學系</span>
+        <span class="text-text-muted">2009 ~ 2012</span>
     </ProfileDetailCard>
 </ProfileCard>
 

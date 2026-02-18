@@ -12,7 +12,7 @@ const { class: className = '' } = Astro.props as Props;
 
 <ProfileCard class={`${className}`}>
   <div class='flex items-center mb-12'>
-    <IconBriefcase class='text-yellow-300 w-8 h-8' />
+    <IconBriefcase class='text-accent w-8 h-8' />
     <span class='flex text-3xl ml-3'>工作經歷</span>
   </div>
   <!-- <div class="flex flex-col mt-12"> -->
@@ -77,13 +77,13 @@ const { class: className = '' } = Astro.props as Props;
   .icon-box {
     @apply w-12 h-12 rounded-full shadow-lg;
     @apply flex justify-center items-center shrink-0;
-    background: linear-gradient(to bottom, #3b475b, #2f3a4e);
+    background: linear-gradient(to bottom, #e5dcbd, #d4cbb0);
     @apply hidden;
   }
 
   .icon-box.icon-current-job {
     @apply flex items-center justify-center shrink-0;
-    @apply bg-gradient-to-br from-amber-400 to-amber-600;
+    @apply bg-gradient-to-br from-pink-400 to-pink-600;
     @apply hidden;
   }
 
@@ -91,14 +91,14 @@ const { class: className = '' } = Astro.props as Props;
     @apply text-xl;
   }
   .company-name {
-    @apply text-base text-amber-400;
+    @apply text-base text-accent;
   }
   .job-duration {
-    @apply flex items-center text-slate-400 text-sm;
+    @apply flex items-center text-text-muted text-sm;
     @apply ml-auto self-start;
   }
   .job-description {
-    @apply list-disc list-inside marker:text-amber-400;
+    @apply list-disc list-inside marker:text-accent;
   }
   .job-description > li:not(:first-child) {
     @apply mt-1;

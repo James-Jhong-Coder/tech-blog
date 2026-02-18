@@ -10,12 +10,10 @@ export async function getStaticPaths() {
     params: { slug: post.id },
   }));
 }
-
 ---
 
 <Layout>
   <Breadcrumb
-    class="mt-6"
     items={[
       { label: "首頁", href: "/", iconName: "home" },
       { label: "標籤列表", href: "", iconName: "tags" },
