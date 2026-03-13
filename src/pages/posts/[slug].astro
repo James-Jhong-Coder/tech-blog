@@ -10,7 +10,10 @@ import IconReadingTime from "@/assets/icons/icon_reading_time.svg";
 import { getReadingTime } from "@/utils/readingTime";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const posts = await getCollection(
+    "posts",
+    ({ data }) => import.meta.env.DEV || !data.draft,
+  );
   return posts.map((post) => ({
     params: { slug: post.id },
   }));

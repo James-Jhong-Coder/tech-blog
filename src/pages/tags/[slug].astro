@@ -5,7 +5,10 @@ import Breadcrumb from "@/components/Breadcrumb.astro";
 import PostList from "@components/PostList.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const posts = await getCollection(
+    "posts",
+    ({ data }) => import.meta.env.DEV || !data.draft,
+  );
   const allTags = posts.flatMap((p) => p.data.tags ?? []);
   const uniqueTags = [...new Set(allTags)];
   return uniqueTags.map((tag) => ({
@@ -15,7 +18,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const posts = await getCollection("posts", ({ data }) =>
-  data.tags.some((item) => item === slug)
+  data.tags.some((item) => item === slug),
 );
 ---
 

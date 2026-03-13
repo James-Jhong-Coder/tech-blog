@@ -9,7 +9,10 @@ interface Props {
 }
 const { class: className, tag, category, limit } = Astro.props as Props;
 
-const posts = await getCollection("posts", ({ data }) => !data.draft);
+const posts = await getCollection(
+  "posts",
+  ({ data }) => import.meta.env.DEV || !data.draft,
+);
 // console.log('posts = ', posts)
 let filteredPosts = (() => {
   console.log("tag = ", tag);
